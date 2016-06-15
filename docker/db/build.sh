@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build --rm --tag ciscokr/openstack_mariadb .
+docker build --rm --tag ciscokr/openstack_db .
