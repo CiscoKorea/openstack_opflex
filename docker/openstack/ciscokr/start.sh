@@ -27,12 +27,13 @@ function running {
 		$CB/setting.sh
 		touch /.first_run
 	fi
+	echo "START RUN LEVEL 1"
 	$CB/runlevel_1.sh
-	(sleep $L2T && $CB/runlevel_2.sh) &
-	(sleep $L3T && $CB/runlevel_3.sh) &
-	(sleep $L4T && $CB/runlevel_4.sh) &
-	(sleep $L5T && $CB/runlevel_5.sh) &
-	(sleep $ITC && idle) &
+	(sleep $L2T && echo "START RUN LEVEL 2" && $CB/runlevel_2.sh) &
+	(sleep $L3T && echo "START RUN LEVEL 3" && $CB/runlevel_3.sh) &
+	(sleep $L4T && echo "START RUN LEVEL 4" && $CB/runlevel_4.sh) &
+	(sleep $L5T && echo "START RUN LEVEL 5" && $CB/runlevel_5.sh) &
+	(sleep $ITC && echo "START IDLE" && idle) &
 }
 
 function debugging {
