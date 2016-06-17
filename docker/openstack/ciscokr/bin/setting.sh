@@ -7,6 +7,8 @@ CF=/root/ciscokr/files
 $CB/do_permissions.sh /var/lib/mysql/
 $CB/do_permissions.sh /var/log/mariadb/
 #$CB/do_permissions.sh /var/run/
+$CB/run_mariadb_sudo.sh /var/lib/mysql/
+chown mysql /var/lib/mysql/run_mariadb_sudo.sh
 
 # Rabbit MQ
 cat >/etc/rabbitmq/rabbitmq.config <<EOF
