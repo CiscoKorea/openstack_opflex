@@ -18,6 +18,7 @@ function idle {
 }
 
 function running {
+	echo "RUNNING OPENSTACK!!!"
 	echo "$HOSTNAME" > /proc/sys/kernel/hostname
 	if [ ! -f /.first_run ]; then
 		echo "$HOSTNAME $HOSTIP" >> /etc/hosts
@@ -35,7 +36,9 @@ function running {
 }
 
 function debugging {
-	idle
+	echo "RUNNING DEBUGGING"
+	/bin/bash
+	echo "EXIT"
 }
 
 if [ "$1" == "debug" ]; then
