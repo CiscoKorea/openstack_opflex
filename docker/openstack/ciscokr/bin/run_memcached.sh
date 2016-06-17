@@ -1,3 +1,3 @@
 #!/bin/bash
 
-memcached -u daemon &
+memcached -u daemon >> /root/memcached.log &
