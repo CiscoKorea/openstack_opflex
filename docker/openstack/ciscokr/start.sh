@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CB=/root/ciscokr/bin
+CF=/root/ciscokr/files
 L2T=10
 L3T=15
 L4T=20
