@@ -33,7 +33,9 @@ function running {
 	(sleep $L3T && echo "START RUN LEVEL 3" && $CB/runlevel_3.sh) &
 	(sleep $L4T && echo "START RUN LEVEL 4" && $CB/runlevel_4.sh) &
 	(sleep $L5T && echo "START RUN LEVEL 5" && $CB/runlevel_5.sh) &
-	(sleep $ITC && echo "START IDLE" && idle) &
+	sleep $ITC
+	echo "START IDLE"
+	idle
 }
 
 function debugging {
