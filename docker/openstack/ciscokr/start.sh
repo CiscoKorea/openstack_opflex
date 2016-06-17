@@ -18,11 +18,14 @@ function idle {
 }
 
 function running {
-	echo "$HOSTNAME $HOSTIP" >> /etc/hosts
 	echo "$HOSTNAME" > /proc/sys/kernel/hostname
-	chmod 755 $CB/*.sh
-	cp -ax $CF/* /
-	$CB/setting.sh
+	if [ ! -f /.first_run ]; then
+		echo "$HOSTNAME $HOSTIP" >> /etc/hosts
+		chmod 755 $CB/*.sh
+		cp -ax $CF/* /
+		$CB/setting.sh
+		touch /.first_run
+	fi
 	$CB/runlevel_1.sh
 	(sleep $L2T && $CB/runlevel_2.sh) &
 	(sleep $L3T && $CB/runlevel_3.sh) &
