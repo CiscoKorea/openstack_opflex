@@ -5,10 +5,10 @@ NOW RUNNING : Keystone, Horizon
 
 1. Create Base Image
 
-< HOST >
+-- HOST --
 $ docker pull centos:7
 $ docker run -ti --privileged --net host --name base centos:7 /bin/bash 
-< ON DOCKER IMAGE >
+-- ON DOCKER IMAGE --
 $ yum install -y --setopt=tsflags=nodocs http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
 $ yum install -y --setopt=tsflags=nodocs https://repos.fedorapeople.org/repos/openstack/openstack-liberty/rdo-release-liberty-3.noarch.rpm
 $ yum install -y --setopt=tsflags=nodocs openstack-selinux
@@ -30,13 +30,13 @@ $ yum install -y --setopt=tsflags=nodocs \
   openstack-ceilometer-central openstack-ceilometer-alarm python-ceilometerclient
 $ yum clean all
 $ exit
-< HOST >
+-- HOST --
 $ docker commit base ciscokr/openstack_base
 
 2. Git Download
 $ cd ~ && pwd
 /root
 $ git clone
-< Edit "HOSTIP", "HOSTNAME", "PASSWORD" environments in Dockerfile > 
+-- Edit "HOSTIP", "HOSTNAME", "PASSWORD" environments in Dockerfile --
 $ ./build.sh
 $ ./start.sh
