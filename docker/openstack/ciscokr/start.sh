@@ -37,7 +37,7 @@ function running {
 
 function debugging {
 	echo "RUNNING DEBUGGING"
-	idle
+	/bin/bash
 	echo "EXIT"
 }
 
