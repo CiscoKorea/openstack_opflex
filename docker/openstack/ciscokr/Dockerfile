@@ -7,7 +7,7 @@ ENV HOSTNAME base
 ENV PASSWORD cisco123
 
 # Volume Link
-VOLUME ["/var/lib/mysql" "/root/ciscokr"]
+VOLUME ["/var/lib/mysql", "/root/ciscokr"]
 
 # Port Open
 EXPOSE 80 3306 5672 15672 4369 5000 11211 25672 35357
