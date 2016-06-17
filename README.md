@@ -38,7 +38,7 @@ $ docker commit base ciscokr/openstack_base
 $ cd ~ && pwd   
 /root   
    
-$ git clone   
+$ git clone https://github.com/CiscoKorea/openstack_opflex.git   
 -- Edit "HOSTIP", "HOSTNAME", "PASSWORD" environments in Dockerfile --   
 $ ./build.sh   
 $ ./start.sh   
