@@ -26,7 +26,7 @@ WEBROOT = '/dashboard/'
 # with the list of host/domain names that the application can serve.
 # For more information see:
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['horizon.example.com', 'localhost']
+ALLOWED_HOSTS = ['*',]
 
 # Set SSL proxy settings:
 # For Django 1.4+ pass this header from the proxy after terminating the SSL,
@@ -54,9 +54,14 @@ ALLOWED_HOSTS = ['horizon.example.com', 'localhost']
 #    "volume": 2,
 #}
 
+OPENSTACK_API_VERSIONS = {
+    "identity": 3,
+    "volume": 2,
+}
+
 # Set this to True if running on multi-domain model. When this is enabled, it
 # will require user to enter the Domain name in addition to username for login.
-#OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = False
+#OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
 
 # Overrides the default domain used when running on single-domain model
 # with Keystone V3. All entities will be created in the default domain.
@@ -114,7 +119,8 @@ SECRET_KEY='2244df4676587cddc918'
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+         'LOCATION': '127.0.0.1:11211',
     }
 }
 
@@ -135,9 +141,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #    ('http://cluster2.example.com:5000/v2.0', 'cluster2'),
 #]
 
-OPENSTACK_HOST = "127.0.0.1"
+OPENSTACK_HOST = "HOSTIP"
 OPENSTACK_KEYSTONE_URL = "http://%s:5000/v2.0" % OPENSTACK_HOST
-OPENSTACK_KEYSTONE_DEFAULT_ROLE = "_member_"
+OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"
 
 # Enables keystone web single-sign-on if set to True.
 #WEBSSO_ENABLED = False
@@ -216,13 +222,13 @@ OPENSTACK_CINDER_FEATURES = {
 OPENSTACK_NEUTRON_NETWORK = {
     'enable_router': True,
     'enable_quotas': True,
-    'enable_ipv6': True,
+    'enable_ipv6': False,
     'enable_distributed_router': False,
     'enable_ha_router': False,
     'enable_lb': True,
     'enable_firewall': True,
-    'enable_vpn': True,
-    'enable_fip_topology_check': True,
+    'enable_vpn': False,
+    'enable_fip_topology_check': False,
 
     # Neutron can be configured with a default Subnet Pool to be used for IPv4
     # subnet-allocation. Specify the label you wish to display in the Address
