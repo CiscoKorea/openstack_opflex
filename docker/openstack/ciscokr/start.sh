@@ -22,7 +22,6 @@ function running {
 	echo "$HOSTNAME" > /proc/sys/kernel/hostname
 	if [ ! -f /.first_run ]; then
 		echo "$HOSTNAME $HOSTIP" >> /etc/hosts
-		chmod 755 $CB/*.sh
 		cp -ax $CF/* /
 		$CB/setting.sh
 		touch /.first_run
