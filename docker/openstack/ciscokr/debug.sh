@@ -12,4 +12,4 @@ docker run\
  --name os_opflex \
  -v /var/lib/mysql:/var/lib/mysql:rw \
  -v /root/openstack_opflex/docker/openstack/ciscokr:/root/ciscokr:ro \
- ciscokr/openstack_opflex
+ ciscokr/openstack_opflex $1
