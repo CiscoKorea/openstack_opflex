@@ -50,4 +50,4 @@ if [ "$1" = 'mysqld_safe' ]; then
 
 fi
 
-exec "$@" &
+exec "$@" >> /dev/null &
