@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "START RUN LEVEL 2"
+
 if [ ! -f /.rabbit_registered ]; then
 
 	# Create Rabbit User

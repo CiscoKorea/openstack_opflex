@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "START RUN LEVEL 1"
+
 CB=/root/ciscokr/bin
 CF=/root/ciscokr/files
 
