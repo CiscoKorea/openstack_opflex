@@ -23,16 +23,8 @@ if [ ! -f /.registered ]; then
 	
 	# Create User
 	openstack user create --domain default --password $PASSWORD glance
-	openstack role add --project service --user glance admin
-	openstack service create --name glance --description "OpenStack Image service" image
-	
 	openstack user create --domain default --password $PASSWORD nova
-	openstack role add --project service --user nova admin
-	openstack service create --name nova --description "OpenStack Compute" compute
-	
 	openstack user create --domain default --password $PASSWORD neutron
-	openstack role add --project service --user neutron admin
-	openstack service create --name neutron --description "OpenStack Networking" network
 	
 	# Register Services
 
@@ -45,12 +37,24 @@ if [ ! -f /.registered ]; then
 	export OS_AUTH_URL=http://$HOSTIP:35357/v3
 	export OS_IDENTITY_API_VERSION=3
 	
+	# Register Roles
+	openstack role add --project service --user glance admin
+	openstack role add --project service --user nova admin
+	openstack role add --project service --user neutron admin
+	
+	# Create Service
+	openstack service create --name glance --description "OpenStack Image service" image
+	openstack service create --name nova --description "OpenStack Compute" compute
+	openstack service create --name neutron --description "OpenStack Networking" network
+	
 	# Create Database
 	mysql -u root -p -e "CREATE DATABASE glance; GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY '$PASSWORD';"
-	su -s /bin/sh -c "glance-manage db_sync" glance
 	mysql -u root -p -e "CREATE DATABASE nova; GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '$PASSWORD';"
-	su -s /bin/sh -c "nova-manage db sync" nova
 	mysql -u root -p -e "CREATE DATABASE neutron; GRANT ALL PRIVILEGES ON neutrons.* TO 'neutron'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '$PASSWORD';"
+	
+	# Deploy Database
+	su -s /bin/sh -c "glance-manage db_sync" glance
+	su -s /bin/sh -c "nova-manage db sync" nova
 	su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
 	
 	# Create Endpoint
