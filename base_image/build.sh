@@ -12,4 +12,5 @@ docker run \
  /root/base_image/start.sh
 
 docker commit base ciscokr/openstack_base
+docker rm -f base
 
