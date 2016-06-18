@@ -3,16 +3,17 @@
 CB=/root/ciscokr/bin
 CF=/root/ciscokr/files
 L2T=10
-L3T=15
-L4T=20
-L5T=25
-ITC=30
+L3T=20
+L4T=30
+L5T=40
+ITC=50
 
 function idle {
 	while true; do
 		read -p "Type \"exit\" to Exit > " KEY
 			case $KEY in
-			exit ) break;;
+			exit ) break ;;
+			shell ) /bin/bash ;;
 			* ) echo "$KEY";;
 		esac
 	done

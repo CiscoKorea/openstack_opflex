@@ -1,10 +1,12 @@
 #!/bin/bash
 
-rabbitmqctl add_user openstack $PASSWORD
-rabbitmqctl set_permissions openstack ".*" ".*" ".*"
-
 if [ ! -f /.dbsynced ]; then
-	# Keystone
+
+	# Create Rabbit User
+	rabbitmqctl add_user openstack $PASSWORD
+	rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+
+	# Create Keystone Admin
 	mysql -e "CREATE DATABASE keystone; GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '$PASSWORD';"
 	su -s /bin/sh -c "keystone-manage db_sync" keystone
 	
@@ -23,5 +25,6 @@ if [ ! -f /.dbsynced ]; then
 	openstack role add --project admin --user admin admin
 	openstack project create --domain default --description "Service Project" service
 	
+	# Touch !
 	touch /.dbsynced
 fi
