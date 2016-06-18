@@ -2,8 +2,8 @@ FROM ciscokr/openstack_base
 MAINTAINER Openstack Liberty <hyjang@cisco.com>
 
 # Environment
-ENV HOSTIP 127.0.0.1
-ENV HOSTNAME controller
+ENV HOSTIP 192.168.56.101
+ENV HOSTNAME base
 ENV PASSWORD cisco123
 
 # Volume Link
