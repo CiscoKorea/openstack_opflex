@@ -30,6 +30,8 @@ sed -i "s/OPENSTACK_HOST = \"HOSTIP\"/OPENSTACK_HOST = \"$HOSTIP\"/g" 		/etc/ope
 
 # Glance
 sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/glance/glance-api.conf
+sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/glance/glance-api.conf
+sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/glance/glance-registry.conf
 sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/glance/glance-registry.conf
 
 # Nova
@@ -37,3 +39,11 @@ sed -i "s/HOSTNAME/$HOSTNAME/" 												/etc/nova/nova.conf
 sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/nova/nova.conf
 sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/nova/nova.conf
 
+# Neutron
+sed -i "s/HOSTNAME/$HOSTNAME/" 												/etc/neutron/neutron.conf
+sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/neutron/neutron.conf
+sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/neutron/neutron.conf
+sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/neutron/plugins/ml2/ml2.ini
+sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/neutron/dhcp_agent.ini
+sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/neutron/dhcp_agent.ini
+ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
