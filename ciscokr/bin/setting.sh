@@ -29,3 +29,11 @@ sed -i "s/HOSTNAME/$HOSTNAME/" 												/etc/keystone/keystone.conf
 sed -i "s/OPENSTACK_HOST = \"HOSTIP\"/OPENSTACK_HOST = \"$HOSTIP\"/g" 		/etc/openstack-dashboard/local_settings
 
 # Glance
+sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/glance/glance-api.conf
+sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/glance/glance-registry.conf
+
+# Nova
+sed -i "s/HOSTNAME/$HOSTNAME/" 												/etc/nova/nova.conf
+sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/nova/nova.conf
+sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/nova/nova.conf
+
