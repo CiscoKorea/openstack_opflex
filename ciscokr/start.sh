@@ -3,10 +3,10 @@
 CB=/root/ciscokr/bin
 CF=/root/ciscokr/files
 L2T=10
-L3T=20
-L4T=30
-L5T=40
-ITC=50
+L3T=15
+L4T=25
+L5T=35
+ITC=45
 
 function idle {
 	while true; do
