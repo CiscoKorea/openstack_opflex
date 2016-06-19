@@ -24,6 +24,18 @@ if [ ! -f /.registered ]; then
 	openstack role add --project admin --user admin admin
 	openstack project create --domain default --description "Service Project" service
 	
+	# Create Database
+	echo "Create Databases"
+	mysql -e "CREATE DATABASE glance; GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY '$PASSWORD';"
+	mysql -e "CREATE DATABASE nova; GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '$PASSWORD';"
+	mysql -e "CREATE DATABASE neutron; GRANT ALL PRIVILEGES ON neutrons.* TO 'neutron'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '$PASSWORD';"
+	
+	# Deploy Database
+	echo "Deploy Databases"
+	su -s /bin/sh -c "glance-manage db_sync" glance
+	su -s /bin/sh -c "nova-manage db sync" nova
+	su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
+	
 	# Create Users
 	echo "Create Users"
 	openstack user create --domain default --password $PASSWORD glance
@@ -41,18 +53,6 @@ if [ ! -f /.registered ]; then
 	openstack service create --name glance --description "OpenStack Image service" image
 	openstack service create --name nova --description "OpenStack Compute" compute
 	openstack service create --name neutron --description "OpenStack Networking" network
-	
-	# Create Database
-	echo "Create Databases"
-	mysql -e "CREATE DATABASE glance; GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY '$PASSWORD';"
-	mysql -e "CREATE DATABASE nova; GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '$PASSWORD';"
-	mysql -e "CREATE DATABASE neutron; GRANT ALL PRIVILEGES ON neutrons.* TO 'neutron'@'localhost' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '$PASSWORD';"
-	
-	# Deploy Database
-	echo "Deploy Databases"
-	su -s /bin/sh -c "glance-manage db_sync" glance
-	su -s /bin/sh -c "nova-manage db sync" nova
-	su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
 	
 	# Create Endpoint
 	echo "Create Endpoints"
