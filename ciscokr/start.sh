@@ -2,8 +2,8 @@
 
 CB=/root/ciscokr/bin
 CF=/root/ciscokr/files
-TICK1=10
-TICK2=20
+TICK1=5
+TICK2=40
 
 function idle {
 	while true; do
