@@ -4,7 +4,6 @@ CB=/root/ciscokr/bin
 CF=/root/ciscokr/files
 TICK1=10
 TICK2=20
-TICK3=30
 
 function idle {
 	while true; do
@@ -29,8 +28,6 @@ function running {
 	$CB/runlevel_1.sh
 	(sleep $TICK1 && $CB/runlevel_2.sh && $CB/runlevel_3.sh) &
 	(sleep $TICK2 && $CB/runlevel_4.sh && $CB/runlevel_5.sh) &
-	sleep $TICK3
-	echo "START IDLE"
 	idle
 }
 
