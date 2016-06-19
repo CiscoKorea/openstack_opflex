@@ -1,0 +1,13 @@
+[ml2]
+type_drivers = opflex,flat,vlan,gre,vxlan
+tenant_network_types = opflex
+mechanism_drivers = apic_gbp
+[ml2_type_vlan]
+network_vlan_ranges = physnet1:2000:2100
+bridge_mappings = physnet1:br-int
+[securitygroup]
+enable_security_group = True
+enable_ipset = True
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+[ovs]
+local_ip = HOSTIP
