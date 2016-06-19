@@ -5,6 +5,7 @@ MAINTAINER Openstack Liberty <hyjang@cisco.com>
 ENV HOSTIP 192.168.56.101
 ENV HOSTNAME base
 ENV PASSWORD cisco123
+ENV APICMODE gbp
 
 # Volume Link
 VOLUME ["/var/lib/mysql", "/root/ciscokr"]
