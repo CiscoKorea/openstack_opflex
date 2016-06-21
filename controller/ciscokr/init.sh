@@ -6,7 +6,7 @@ export _ROOT=$PWD
 export _BIN=$_ROOT/bin
 export _FILE=$_ROOT/files
 export _IMG=$_ROOT/image
-export _PKG=$_ROOT/pakage
+export _PKG=$_ROOT/package
 export _CONF=/root/conf
 
 TICK1=5
