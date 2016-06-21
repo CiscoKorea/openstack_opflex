@@ -74,6 +74,12 @@ if [ ! -f /.registered ]; then
 	
 	
 	# Opflex
+	echo "Install Opflex"
+	PACKAGES=`ls $_PKG`
+	for p in $PACKAGES; do
+		echo "Install $p"
+		rpm -Uvh $p
+	done
 	
 	#yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic
 	#yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp
