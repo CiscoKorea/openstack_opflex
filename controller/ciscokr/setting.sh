@@ -57,10 +57,10 @@ ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
 
 # Opflex
 echo "OpFlex"
-sed -i "s/APICID/$APICID/g" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
-sed -i "s/APICHOST/$APICHOST/g" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
-sed -i "s/APICUSER/$APICUSER/g" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
-sed -i "s/APICPASS/$APICPASS/g" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+sed -i "s/APICID/$APICID/g" /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+sed -i "s/APICHOST/$APICHOST/g" /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+sed -i "s/APICUSER/$APICUSER/g" /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+sed -i "s/APICPASS/$APICPASS/g" /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
 
 if [ "$APICMODE" == "gbp" ]; then
 	sed -i "s/SERVICE_PLUGINS/group_policy,servicechain,apic_gbp_l3,metering/g" /etc/neutron/neutron.conf
