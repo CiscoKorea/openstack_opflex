@@ -10,7 +10,7 @@ export _PKG=$_ROOT/package
 export _CONF=/root/conf
 
 TICK1=5
-TICK2=40
+TICK2=30
 
 function idle {
 	while true; do
