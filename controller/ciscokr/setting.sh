@@ -63,12 +63,14 @@ sed -i "s/APICUSER/$APICUSER/g" /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
 sed -i "s/APICPASS/$APICPASS/g" /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
 
 if [ "$APICMODE" == "gbp" ]; then
+	echo "Set OpFlex : GBP"
 	sed -i "s/SERVICE_PLUGINS/group_policy,servicechain,apic_gbp_l3,metering/g" /etc/neutron/neutron.conf
-	sed -i "s/MECHDRIVERS/apic_gbp/g /etc/neutron/plugins/ml2/ml2_conf.ini
+	sed -i "s/MECHDRIVERS/apic_gbp/g" /etc/neutron/plugins/ml2/ml2_conf.ini
 	openstack-config --set /etc/heat/heat.conf DEFAULT plugin_dirs /usr/lib/python2.7/site-packages/gbpautomation/heat
 else
+	echo "Set OpFlex : APIC_ML2"
 	sed -i "s/SERVICE_PLUGINS/cisco_apic_l3,metering,lbaas/g" /etc/neutron/neutron.conf
-	sed -i "s/MECHDRIVERS/cisco_apic_ml2/g /etc/neutron/plugins/ml2/ml2_conf.ini
+	sed -i "s/MECHDRIVERS/cisco_apic_ml2/g" /etc/neutron/plugins/ml2/ml2_conf.ini
 fi
 
 if [ "$LINKMODE" == "vpc" ]; then
