@@ -50,7 +50,7 @@ echo "Neutron"
 sed -i "s/HOSTNAME/$HOSTNAME/" 												/etc/neutron/neutron.conf
 sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/neutron/neutron.conf
 sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/neutron/neutron.conf
-sed -i "s/METASEC/$PASSWORD/g" 												/etc/neutron/metadata_agent.ini
+sed -i "s/PASSWD/$PASSWORD/g" 												/etc/neutron/metadata_agent.ini
 sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/neutron/metadata_agent.ini
 sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/neutron/plugins/ml2/ml2_conf.ini
 ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
