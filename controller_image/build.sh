@@ -15,3 +15,5 @@ docker run \
 
 docker commit base ciscokr/openstack_base
 docker rm -f base
+
+docker build --rm --tag ciscokr/openstack_opflex .
