@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PWD=`${pwd}`
+PWD=`pwd`
 
 rm -rf /var/lib/mysql
 mkdir -p /var/lib/mysql

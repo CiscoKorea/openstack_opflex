@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd /root/ciscokr
-PWD=`${pwd}`
+PWD=`pwd`
 export _ROOT=$PWD
 export _BIN=$_ROOT/bin
 export _FILE=$_ROOT/files
