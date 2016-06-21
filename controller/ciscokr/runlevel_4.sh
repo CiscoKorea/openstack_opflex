@@ -78,7 +78,7 @@ if [ ! -f /.registered ]; then
 	PACKAGES=`ls $_PKG`
 	for p in $PACKAGES; do
 		echo "Install $p"
-		rpm -Uvh $p
+		rpm -Uvh $_PKG/$p
 	done
 	
 	#yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic
