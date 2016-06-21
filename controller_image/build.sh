@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PWD=`${pwd}`
+
 docker pull centos:7
 
 docker run \
@@ -7,10 +9,9 @@ docker run \
  --privileged \
  --net host \
  --name base \
- -v /root/openstack_opflex/base_image:/root/base_image:ro \
+ -v $PWD:/root/image:ro \
  centos:7 \
- /root/base_image/start.sh
+ /root/image/installer.sh
 
 docker commit base ciscokr/openstack_base
 docker rm -f base
-

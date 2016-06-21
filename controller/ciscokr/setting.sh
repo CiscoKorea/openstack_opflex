@@ -1,12 +1,9 @@
 #!/bin/bash
 
-CB=/root/ciscokr/bin
-CF=/root/ciscokr/files
-
 # Mysql
-$CB/do_permissions.sh /var/lib/mysql/
-$CB/do_permissions.sh /var/log/mariadb/
-cp $CB/run_mariadb_sudo.sh /var/lib/mysql/
+$_BIN/do_permissions.sh /var/lib/mysql/
+$_BIN/do_permissions.sh /var/log/mariadb/
+cp $_BIN/run_mariadb_sudo.sh /var/lib/mysql/
 chown mysql /var/lib/mysql/run_mariadb_sudo.sh
 sed -i "s/PASSWORD/$PASSWORD/g" 											/etc/my.cnf.d/client.cnf
 
@@ -47,3 +44,34 @@ sed -i "s/METASEC/$PASSWORD/g" 												/etc/neutron/metadata_agent.ini
 sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/neutron/metadata_agent.ini
 sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/neutron/plugins/ml2/ml2_conf.ini
 ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+
+# Opflex
+sed -i "s/APICID/$APICID/g" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+sed -i "s/APICHOST/$APICHOST/g" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+sed -i "s/APICUSER/$APICUSER/g" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+sed -i "s/APICPASS/$APICPASS/g" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+
+if [ "$APICMODE" == "gbp" ]; then
+	sed -i "s/SERVICE_PLUGINS/group_policy,servicechain,apic_gbp_l3,metering/g" /etc/neutron/neutron.conf
+	sed -i "s/MECHDRIVERS/apic_gbp/g /etc/neutron/plugins/ml2/ml2_conf.ini
+	openstack-config --set /etc/heat/heat.conf DEFAULT plugin_dirs /usr/lib/python2.7/site-packages/gbpautomation/heat
+else
+	sed -i "s/SERVICE_PLUGINS/cisco_apic_l3,metering,lbaas/g" /etc/neutron/neutron.conf
+	sed -i "s/MECHDRIVERS/cisco_apic_ml2/g /etc/neutron/plugins/ml2/ml2_conf.ini
+fi
+
+if [ "$LINKMODE" == "vpc" ]; then
+	echo "apic_vpc_pairs = $VPC_PAIR" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+fi
+
+if [ "$APICMODE" == "gbp" ]; then
+	echo "[group_policy]" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+	echo "policy_drivers=implicit_policy,apic" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+	echo "[group_policy_implicit_policy]" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+	echo "default_ip_pool=$GBP_POOL" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+fi
+
+cat $_CONF/Switch.conf >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+
+
+

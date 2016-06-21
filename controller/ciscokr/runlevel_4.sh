@@ -73,16 +73,14 @@ if [ ! -f /.registered ]; then
 	
 	
 	
+	# Opflex
 	
-	# Register Services
-#	export OS_PROJECT_DOMAIN_ID=default
-#	export OS_USER_DOMAIN_ID=default
-#	export OS_PROJECT_NAME=admin
-#	export OS_TENANT_NAME=admin
-#	export OS_USERNAME=admin
-#	export OS_PASSWORD=$PASSWORD
-#	export OS_AUTH_URL=http://$HOSTIP:35357/v3
-#	export OS_IDENTITY_API_VERSION=3
+	#yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic
+	#yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp
+	
+	
+	
+	
 
 	touch /.registered
 fi

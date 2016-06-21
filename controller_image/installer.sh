@@ -11,6 +11,7 @@ yum install -y --setopt=tsflags=nodocs \
 	mariadb mariadb-server MySQL-python \
 	rabbitmq-server \
 	httpd mod_wsgi memcached \
+	python_pip python_pbr \
 	openstack-utils \
 	python-openstackclient \
 	openstack-dashboard \
