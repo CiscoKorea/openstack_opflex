@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PWD=`${pwd}`
+PWD=`pwd`
 
 docker pull centos:7
 
