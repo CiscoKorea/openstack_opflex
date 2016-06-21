@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Setting!!!
+echo "Setting!!!"
 
 # Mysql
 echo "Mysql"
