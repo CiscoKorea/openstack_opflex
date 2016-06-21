@@ -12,7 +12,7 @@ docker run\
  --privileged \
  --net host \
  --name os_opflex \
- --env_file $PWD/conf/Environment.conf \
+ --env-file $PWD/conf/Environment.conf \
  -v /var/lib/mysql:/var/lib/mysql:rw \
  -v $PWD/ciscokr:/root/ciscokr:ro \
  -v $PWD/conf:/root/conf:ro \
