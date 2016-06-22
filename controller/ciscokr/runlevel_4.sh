@@ -69,6 +69,7 @@ if [ ! -f /.registered ]; then
 	openstack endpoint create --region RegionOne network admin http://$HOST_IP:9696
 	
 	# Opflex ##########################################################
+	echo "Install OpFlex Plugins"
 	if [ "$APIC_MODE" == "apic_ml2" ]; then
 		# yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic && yum clean all
 	elif [ "$APIC_MODE" == "gbp" ]; then
