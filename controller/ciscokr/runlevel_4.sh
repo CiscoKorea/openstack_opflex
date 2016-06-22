@@ -71,8 +71,10 @@ if [ ! -f /.registered ]; then
 	# Opflex ##########################################################
 	echo "Install OpFlex Plugins"
 	if [ "$APIC_MODE" == "apic_ml2" ]; then
+		echo "APIC_ML2"
 		# yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic && yum clean all
 	elif [ "$APIC_MODE" == "gbp" ]; then
+		echo "GBP"
 		# yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp && yum clean all
 		rpm -Uvh $_PKG/python-gbpclient-0.11.2-16.el7.noarch.rpm
 		rpm -Uvh $_PKG/python-django-horizon-gbp-2015.2.3-16.el7.noarch.rpm
