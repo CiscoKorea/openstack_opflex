@@ -68,25 +68,13 @@ if [ ! -f /.registered ]; then
 	openstack endpoint create --region RegionOne network internal http://$HOSTIP:9696
 	openstack endpoint create --region RegionOne network admin http://$HOSTIP:9696
 	
-	
-	
-	
-	
-	
 	# Opflex
-	echo "Install Opflex"
-	PACKAGES=`ls $_PKG`
-	for p in $PACKAGES; do
-		echo "Install $p"
-		rpm -Uvh $_PKG/$p
-	done
-	
-	#yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic
-	#yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp
-	
-	
-	
-	
+	if [ "$APICMODE" == "gbp" ]; then
+		yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp
+	else
+		yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic
+	fi
+	yum clean all
 
 	touch /.registered
 fi
