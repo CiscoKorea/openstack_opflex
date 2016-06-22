@@ -9,6 +9,16 @@ export _IMG=$_ROOT/image
 export _PKG=$_ROOT/package
 export _CONF=/root/conf
 
+if [ "$APIC_MODE" == "apic_ml2" ]; then
+	export APIC_PLUGINS=cisco_apic_l3,metering,lbaas
+	export APIC_DRIVER=cisco_apic_ml2
+elif [ "$APIC_MODE" == "gbp" ]; then
+	export APIC_PLUGINS=group_policy,servicechain,apic_gbp_l3,metering
+	export APIC_DRIVER=apic_gbp
+else
+	exit 1
+fi
+
 TICK1=5
 TICK2=6
 TICK3=30
@@ -29,7 +39,7 @@ function main {
 	echo ""
 	echo "$HOSTNAME" > /proc/sys/kernel/hostname
 	if [ ! -f /.first_run ]; then
-		cp -ax $_FILE/* /
+#		cp -ax $_FILE/* /
 		echo "" >> /etc/hosts
 		cat $_CONF/OpenstackNodes.conf >> /etc/hosts
 		$_ROOT/setting.sh
@@ -38,7 +48,7 @@ function main {
 	$_ROOT/runlevel_1.sh
 	(sleep $TICK1 && $_ROOT/runlevel_2.sh) &
 	(sleep $TICK2 && $_ROOT/runlevel_3.sh) &
-	(sleep $TICK3 && $_ROOT/runlevel_4.sh && $_ROOT/runlevel_5.sh) &
+#	(sleep $TICK3 && $_ROOT/runlevel_4.sh && $_ROOT/runlevel_5.sh) &
 	idle
 }
 

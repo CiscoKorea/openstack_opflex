@@ -9,7 +9,7 @@ if [ "$1" = 'mysqld_safe' ]; then
 	DATADIR="/var/lib/mysql"
 	
 	if [ ! -d "$DATADIR/mysql" ]; then
-		if [ -z "$PASSWORD" -a -z "$MYSQL_ALLOW_EMPTY_PASSWORD" ]; then
+		if [ -z "$HOST_PASS" -a -z "$MYSQL_ALLOW_EMPTY_PASSWORD" ]; then
 			echo >&2 'error: database is uninitialized and PASSWORD not set'
 			echo >&2 '  Did you forget to add -e PASSWORD=... ?'
 			exit 1
@@ -26,7 +26,7 @@ if [ "$1" = 'mysqld_safe' ]; then
 		tempSqlFile='/tmp/mysql-first-time.sql'
 		cat > "$tempSqlFile" <<-EOSQL
 			DELETE FROM mysql.user ;
-			CREATE USER 'root'@'%' IDENTIFIED BY '${PASSWORD}' ;
+			CREATE USER 'root'@'%' IDENTIFIED BY '${HOST_PASS}' ;
 			GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
 			DROP DATABASE IF EXISTS test ;
 		EOSQL
