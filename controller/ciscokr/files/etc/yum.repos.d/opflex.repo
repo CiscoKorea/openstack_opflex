@@ -1,0 +1,6 @@
+[opflex]
+name=opflex repo
+baseurl=http://HOSTIP/opflex
+failovermethod=priority
+enabled=1
+gpgcheck=0

@@ -22,6 +22,9 @@ echo "HTTP"
 sed -i "s/#ServerName www.example.com:80/ServerName $HOSTNAME/g" 			/etc/httpd/conf/httpd.conf
 sed -i "s/Listen 80/Listen 0.0.0.0:80/g" 									/etc/httpd/conf/httpd.conf
 
+# YUM.REPOS.D
+sed -i "s/HOSTIP/$HOSTIP/g" 												/etc/yum.repos.d/opflex.repo
+
 # Keystone
 echo "Keystone"
 sed -i "s/ADMIN_TOKEN/$PASSWORD/"											/etc/keystone/keystone.conf

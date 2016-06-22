@@ -30,7 +30,6 @@ function main {
 	echo "$HOSTNAME" > /proc/sys/kernel/hostname
 	if [ ! -f /.first_run ]; then
 		cp -ax $_FILE/* /
-		echo "$HOSTNAME $HOSTIP" >> /etc/hosts
 		echo "" >> /etc/hosts
 		cat $_CONF/OpenstackNodes.conf >> /etc/hosts
 		$_ROOT/setting.sh
