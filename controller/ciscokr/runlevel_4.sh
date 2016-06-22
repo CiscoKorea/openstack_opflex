@@ -69,12 +69,18 @@ if [ ! -f /.registered ]; then
 	openstack endpoint create --region RegionOne network admin http://$HOST_IP:9696
 	
 	# Opflex ##########################################################
-	if [ "$APICMODE" == "gbp" ]; then
-		yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp
+	if [ "$APIC_MODE" == "apic_ml2" ]; then
+		# yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic && yum clean all
+	elif [ "$APIC_MODE" == "gbp" ]; then
+		# yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp && yum clean all
+		rpm -Uvh $_PKG/python-gbpclient-0.11.2-16.el7.noarch.rpm
+		rpm -Uvh $_PKG/python-django-horizon-gbp-2015.2.3-16.el7.noarch.rpm
+		rpm -Uvh $_PKG/openstack-dashboard-gbp-2015.2.3-16.el7.noarch.rpm
+		rpm -Uvh $_PKG/openstack-heat-gbp-2015.2.2-16.el7.noarch.rpm
+		rpm -Uvh $_PKG/openstack-neutron-gbp-2015.2.3-16.el7.noarch.rpm
 	else
-		yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic
+		exit 1
 	fi
-	yum clean all
 
 	touch /.registered
 fi

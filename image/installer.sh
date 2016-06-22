@@ -12,7 +12,7 @@ yum install -y --setopt=tsflags=nodocs \
 	rabbitmq-server \
 	httpd mod_wsgi memcached \
 	createrepo \
-	python_pip python_pbr \
+	python-pip python-pbr \
 	openstack-utils \
 	python-openstackclient \
 	openstack-dashboard \

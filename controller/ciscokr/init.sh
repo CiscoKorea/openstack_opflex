@@ -48,7 +48,7 @@ function main {
 	$_ROOT/runlevel_1.sh
 	(sleep $TICK1 && $_ROOT/runlevel_2.sh) &
 	(sleep $TICK2 && $_ROOT/runlevel_3.sh) &
-#	(sleep $TICK3 && $_ROOT/runlevel_4.sh && $_ROOT/runlevel_5.sh) &
+	(sleep $TICK3 && $_ROOT/runlevel_4.sh && $_ROOT/runlevel_5.sh) &
 	idle
 }
 
