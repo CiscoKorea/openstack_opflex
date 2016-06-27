@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 #NETPATH=/etc/sysconfig/network-scripts
 NETPATH=/root
 DHCPATH=/root
