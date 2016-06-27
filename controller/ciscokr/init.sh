@@ -4,7 +4,6 @@ cd /root/ciscokr
 PWD=`pwd`
 export _ROOT=$PWD
 export _BIN=$_ROOT/bin
-export _FILE=$_ROOT/files
 export _IMG=$_ROOT/image
 export _PKG=$_ROOT/package
 export _CONF=/root/conf
@@ -39,16 +38,15 @@ function main {
 	echo ""
 	echo "$HOSTNAME" > /proc/sys/kernel/hostname
 	if [ ! -f /.first_run ]; then
-#		cp -ax $_FILE/* /
 		echo "" >> /etc/hosts
 		cat $_CONF/OpenstackNodes.conf >> /etc/hosts
-		$_ROOT/setting.sh
+		$_ROOT/setting.sh >> /tmp/running.log
 		touch /.first_run
 	fi
 	$_ROOT/runlevel_1.sh
 	(sleep $TICK1 && $_ROOT/runlevel_2.sh) &
 	(sleep $TICK2 && $_ROOT/runlevel_3.sh) &
-	(sleep $TICK3 && $_ROOT/runlevel_4.sh && $_ROOT/runlevel_5.sh) &
+	(sleep $TICK3 && $_ROOT/runlevel_4.sh >> /tmp/running.log && $_ROOT/runlevel_5.sh) &
 	idle
 }
 

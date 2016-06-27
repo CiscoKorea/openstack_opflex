@@ -2,7 +2,7 @@
 
 echo "Setting!!!"
 
-# Mysql #############################################################
+# Mysql #################################################################################
 echo "Mysql"
 
 $_BIN/do_permissions.sh /var/lib/mysql/
@@ -33,7 +33,7 @@ echo "/etc/my.cnf.d/client.cnf"
 cat /etc/my.cnf.d/client.cnf | grep -v "#" | grep -i "\W"
 echo ""
 
-# Rabbit MQ #############################################################
+# Rabbit MQ #################################################################################
 echo "RabbitMQ"
 
 cat >/etc/rabbitmq/rabbitmq.config << EOF
@@ -43,9 +43,9 @@ echo "/etc/rabbitmq/rabbitmq.config"
 cat /etc/rabbitmq/rabbitmq.config | grep -v "#" | grep -i "\W"
 echo ""
 
-/usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management >> /root/rabbit.log
+/usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management >> /tmp/rabbit.log
 
-# HTTPD #############################################################
+# HTTPD #################################################################################
 echo "HTTP"
 
 cat << EOF > /etc/httpd/conf/httpd.conf
@@ -112,7 +112,7 @@ echo "/etc/httpd/conf/httpd.conf"
 cat /etc/httpd/conf/httpd.conf | grep -v "#" | grep -i "\W"
 echo ""
 
-# YUM.REPOS.D #############################################################
+# YUM.REPOS.D #################################################################################
 #echo "Yum"
 #
 #cat << EOF > /etc/yum.repos.d/opflex.repo
@@ -127,7 +127,7 @@ echo ""
 #cat /etc/yum.repos.d/opflex.repo | grep -v "#" | grep -i "\W"
 #echo ""
 
-# Keystone #############################################################
+# Keystone #################################################################################
 echo "Keystone"
 
 cat << EOF > /etc/keystone/keystone.conf
@@ -148,7 +148,7 @@ echo "/etc/keystone/keystone.conf"
 cat /etc/keystone/keystone.conf | grep -v "#" | grep -i "\W"
 echo ""
 
-# Horizon #############################################################
+# Horizon #################################################################################
 echo "Horizon"
 
 cat << EOF > /etc/openstack-dashboard/local_settings
@@ -489,7 +489,7 @@ echo "/etc/httpd/conf.d/wsgi-keystone.conf"
 cat /etc/httpd/conf.d/wsgi-keystone.conf | grep -v "#" | grep -i "\W"
 echo ""
 
-# Glance #############################################################
+# Glance #################################################################################
 echo "Glance"
 
 cat << EOF > /etc/glance/glance-api.conf
@@ -539,7 +539,7 @@ echo "/etc/glance/glance-registry.conf"
 cat /etc/glance/glance-registry.conf | grep -v "#" | grep -i "\W"
 echo ""
 
-# Nova #############################################################
+# Nova #################################################################################
 echo "Nova"
 
 cat << EOF > /etc/nova/nova.conf
@@ -588,7 +588,7 @@ echo "/etc/nova/nova.conf"
 cat /etc/nova/nova.conf | grep -v "#" | grep -i "\W"
 echo ""
 
-# Neutron #############################################################
+# Neutron #################################################################################
 echo "Neutron"
 
 cat << EOF > /etc/neutron/neutron.conf
@@ -609,8 +609,6 @@ rabbit_host = $HOST_IP
 rabbit_userid = openstack
 rabbit_password = $HOST_PASS
 [keystone_authtoken]
-#auth_uri = http://127.0.0.1:35357/v2.0/
-#identity_uri = http://127.0.0.1:5000
 admin_tenant_name = %SERVICE_TENANT_NAME%
 admin_user = %SERVICE_USER%
 admin_password = %SERVICE_PASSWORD%
@@ -738,7 +736,7 @@ echo ""
 
 ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
 
-# Heat #############################################################
+# Heat #################################################################################
 echo "Heat"
 
 if [ "$APIC_MODE" == "gbp" ]; then
