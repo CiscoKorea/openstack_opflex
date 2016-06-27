@@ -73,6 +73,9 @@ if [ ! -f /.registered ]; then
 	if [ "$APIC_MODE" == "apic_ml2" ]; then
 		echo "APIC_ML2"
 		# yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic && yum clean all
+		# yum install python-inotify 
+		# pip install supervisor
+		# pip install click
 	elif [ "$APIC_MODE" == "gbp" ]; then
 		echo "GBP"
 		# yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp && yum clean all
