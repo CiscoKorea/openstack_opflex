@@ -68,7 +68,4 @@ also request wpad;
 also request ntp-servers;
 EOF
 
-
-
-
 #service network restart
