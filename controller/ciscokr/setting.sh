@@ -609,6 +609,11 @@ rabbit_host = $HOST_IP
 rabbit_userid = openstack
 rabbit_password = $HOST_PASS
 [keystone_authtoken]
+#auth_uri = http://127.0.0.1:35357/v2.0/
+#identity_uri = http://127.0.0.1:5000
+admin_tenant_name = %SERVICE_TENANT_NAME%
+admin_user = %SERVICE_USER%
+admin_password = %SERVICE_PASSWORD%
 auth_uri = http://$HOST_IP:5000
 auth_url = http://$HOST_IP:35357
 auth_plugin = password
