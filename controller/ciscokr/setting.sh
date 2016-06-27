@@ -30,7 +30,7 @@ password=$HOST_PASS
 [client-mariadb]
 EOF
 echo "/etc/my.cnf.d/client.cnf"
-cat /etc/my.cnf.d/client.cnf
+cat /etc/my.cnf.d/client.cnf | grep -v "#" | grep -i "\W"
 echo ""
 
 # Rabbit MQ #############################################################
@@ -40,7 +40,7 @@ cat >/etc/rabbitmq/rabbitmq.config << EOF
 [ {rabbit, [{default_user, <<"admin">>}, {default_pass, <<"$HOST_PASS">>}]} ].
 EOF
 echo "/etc/rabbitmq/rabbitmq.config"
-cat /etc/rabbitmq/rabbitmq.config
+cat /etc/rabbitmq/rabbitmq.config | grep -v "#" | grep -i "\W"
 echo ""
 
 /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management >> /root/rabbit.log
@@ -109,7 +109,7 @@ EnableSendfile on
 IncludeOptional conf.d/*.conf
 EOF
 echo "/etc/httpd/conf/httpd.conf"
-cat /etc/httpd/conf/httpd.conf
+cat /etc/httpd/conf/httpd.conf | grep -v "#" | grep -i "\W"
 echo ""
 
 # YUM.REPOS.D #############################################################
@@ -124,7 +124,7 @@ echo ""
 #gpgcheck=0
 #EOF
 #echo "/etc/yum.repos.d/opflex.repo"
-#cat /etc/yum.repos.d/opflex.repo
+#cat /etc/yum.repos.d/opflex.repo | grep -v "#" | grep -i "\W"
 #echo ""
 
 # Keystone #############################################################
@@ -145,7 +145,7 @@ driver = memcache
 driver = sql
 EOF
 echo "/etc/keystone/keystone.conf"
-cat /etc/keystone/keystone.conf
+cat /etc/keystone/keystone.conf | grep -v "#" | grep -i "\W"
 echo ""
 
 # Horizon #############################################################
@@ -434,7 +434,7 @@ SECURITY_GROUP_RULES = {
 REST_API_REQUIRED_SETTINGS = ['OPENSTACK_HYPERVISOR_FEATURES']
 EOF
 echo "/etc/openstack-dashboard/local_settings"
-cat /etc/openstack-dashboard/local_settings
+cat /etc/openstack-dashboard/local_settings | grep -v "#" | grep -i "\W"
 echo ""
 
 cat << EOF > /etc/httpd/conf.d/wsgi-keystone.conf
@@ -486,7 +486,7 @@ Listen 0.0.0.0:35357
 </VirtualHost>
 EOF
 echo "/etc/httpd/conf.d/wsgi-keystone.conf"
-cat /etc/httpd/conf.d/wsgi-keystone.conf
+cat /etc/httpd/conf.d/wsgi-keystone.conf | grep -v "#" | grep -i "\W"
 echo ""
 
 # Glance #############################################################
@@ -514,7 +514,7 @@ default_store = file
 filesystem_store_datadir = /var/lib/glance/images/
 EOF
 echo "/etc/glance/glance-api.conf"
-cat /etc/glance/glance-api.conf
+cat /etc/glance/glance-api.conf | grep -v "#" | grep -i "\W"
 echo ""
 
 cat << EOF > /etc/glance/glance-registry.conf
@@ -536,7 +536,7 @@ password = $HOST_PASS
 flavor = keystone
 EOF
 echo "/etc/glance/glance-registry.conf"
-cat /etc/glance/glance-registry.conf
+cat /etc/glance/glance-registry.conf | grep -v "#" | grep -i "\W"
 echo ""
 
 # Nova #############################################################
@@ -585,7 +585,7 @@ service_metadata_proxy = True
 metadata_proxy_shared_secret = $HOST_PASS
 EOF
 echo "/etc/nova/nova.conf"
-cat /etc/nova/nova.conf
+cat /etc/nova/nova.conf | grep -v "#" | grep -i "\W"
 echo ""
 
 # Neutron #############################################################
@@ -628,7 +628,7 @@ username = nova
 password = $HOST_PASS
 EOF
 echo "/etc/neutron/neutron.conf"
-cat /etc/neutron/neutron.conf
+cat /etc/neutron/neutron.conf | grep -v "#" | grep -i "\W"
 echo ""
 
 cat << EOF > /etc/neutron/metadata_agent.ini
@@ -650,7 +650,7 @@ metadata_proxy_shared_secret = $HOST_PASS
 verbose = True
 EOF
 echo "/etc/neutron/metadata_agent.ini"
-cat /etc/neutron/metadata_agent.ini
+cat /etc/neutron/metadata_agent.ini | grep -v "#" | grep -i "\W"
 echo ""
 
 cat << EOF > /etc/neutron/dhcp_agent.ini
@@ -662,7 +662,7 @@ enable_isolated_metadata = True
 verbose = True
 EOF
 echo "/etc/neutron/dhcp_agent.ini"
-cat /etc/neutron/dhcp_agent.ini
+cat /etc/neutron/dhcp_agent.ini | grep -v "#" | grep -i "\W"
 echo ""
 
 cat << EOF > /etc/neutron/plugins/ml2/ml2_conf.ini
@@ -681,7 +681,7 @@ firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewal
 local_ip = $HOST_IP
 EOF
 echo "/etc/neutron/plugins/ml2/ml2_conf.ini"
-cat /etc/neutron/plugins/ml2/ml2_conf.ini
+cat /etc/neutron/plugins/ml2/ml2_conf.ini | grep -v "#" | grep -i "\W"
 echo ""
 
 cat << EOF > /etc/neutron/plugins/ml2/openvswitch_agent.ini
@@ -692,7 +692,7 @@ integration_bridge = br-int
 [securitygroup]
 EOF
 echo "/etc/neutron/plugins/ml2/openvswitch_agent.ini"
-cat /etc/neutron/plugins/ml2/openvswitch_agent.ini
+cat /etc/neutron/plugins/ml2/openvswitch_agent.ini | grep -v "#" | grep -i "\W"
 echo ""
 
 cat << EOF > /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
@@ -728,7 +728,7 @@ fi
 cat $_CONF/Switch.conf >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
 
 echo "/etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini"
-cat /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+cat /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini | grep -v "#" | grep -i "\W"
 echo ""
 
 ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
@@ -741,5 +741,5 @@ if [ "$APIC_MODE" == "gbp" ]; then
 fi
 
 echo "/etc/heat/heat.conf"
-cat /etc/heat/heat.conf
+cat /etc/heat/heat.conf | grep -v "#" | grep -i "\W"
 echo ""

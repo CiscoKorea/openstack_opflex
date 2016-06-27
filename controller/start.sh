@@ -8,7 +8,6 @@ chmod 777 /var/lib/mysql
 
 docker run\
  -d \
- --rm \
  --privileged \
  --net host \
  --name os_opflex \
