@@ -1,6 +1,7 @@
 #!/bin/bash
 
-yum install -y --setopt=tsflags=nodocs http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
+yum install -y --setopt=tsflags=nodocs epel-release
+#yum install -y --setopt=tsflags=nodocs http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
 yum install -y --setopt=tsflags=nodocs https://repos.fedorapeople.org/repos/openstack/openstack-liberty/rdo-release-liberty-3.noarch.rpm
 yum install -y --setopt=tsflags=nodocs openstack-selinux
 
@@ -11,7 +12,6 @@ yum install -y --setopt=tsflags=nodocs \
 	mariadb mariadb-server MySQL-python \
 	rabbitmq-server \
 	httpd mod_wsgi memcached \
-	createrepo \
 	python-pip python-pbr \
 	openstack-utils \
 	python-openstackclient \
