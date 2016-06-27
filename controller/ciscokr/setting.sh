@@ -113,19 +113,19 @@ cat /etc/httpd/conf/httpd.conf
 echo ""
 
 # YUM.REPOS.D #############################################################
-echo "Yum"
-
-cat << EOF > /etc/yum.repos.d/opflex.repo
-[opflex]
-name=opflex repo
-baseurl=http://$HOST_IP/opflex
-failovermethod=priority
-enabled=1
-gpgcheck=0
-EOF
-echo "/etc/yum.repos.d/opflex.repo"
-cat /etc/yum.repos.d/opflex.repo
-echo ""
+#echo "Yum"
+#
+#cat << EOF > /etc/yum.repos.d/opflex.repo
+#[opflex]
+#name=opflex repo
+#baseurl=http://$HOST_IP/opflex
+#failovermethod=priority
+#enabled=1
+#gpgcheck=0
+#EOF
+#echo "/etc/yum.repos.d/opflex.repo"
+#cat /etc/yum.repos.d/opflex.repo
+#echo ""
 
 # Keystone #############################################################
 echo "Keystone"

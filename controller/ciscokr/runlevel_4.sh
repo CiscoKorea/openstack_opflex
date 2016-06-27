@@ -70,13 +70,12 @@ if [ ! -f /.registered ]; then
 	
 	# Opflex ##########################################################
 	echo "Install OpFlex Plugins"
-	if [ "$APIC_MODE" == "apic_ml2" ]; then
-		echo "APIC_ML2"
-		# yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic && yum clean all
-		# yum install python-inotify 
-		# pip install supervisor
-		# pip install click
-	elif [ "$APIC_MODE" == "gbp" ]; then
+	# yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic
+	rpm -Uvh $_PKG/neutron-opflex-agent-2015.2.0-10.el7.noarch.rpm \
+	$_PKG/apicapi-1.0.9-74.el7.noarch.rpm \
+	$_PKG/neutron-ml2-driver-apic-2015.2.1-32.el7.noarch.rpm
+	
+	if [ "$APIC_MODE" == "gbp" ]; then
 		echo "GBP"
 		# yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp && yum clean all
 		rpm -Uvh $_PKG/python-gbpclient-0.11.2-16.el7.noarch.rpm
@@ -84,8 +83,6 @@ if [ ! -f /.registered ]; then
 		rpm -Uvh $_PKG/openstack-dashboard-gbp-2015.2.3-16.el7.noarch.rpm
 		rpm -Uvh $_PKG/openstack-heat-gbp-2015.2.2-16.el7.noarch.rpm
 		rpm -Uvh $_PKG/openstack-neutron-gbp-2015.2.3-16.el7.noarch.rpm
-	else
-		exit 1
 	fi
 
 	touch /.registered
