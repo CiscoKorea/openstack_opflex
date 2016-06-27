@@ -12,16 +12,16 @@ VMAC=$2
 for s in $BOND_SLAVES
 do
 	cp $NETPATH/ifcfg-$s $NETPATH/backup-$s
-	cat << EOF > $NETPATH/ifcfg-$s
-	TYPE=Ethernet
-	BOOTPROTO=none
-	NAME=$s
-	DEVICE=$s
-	ONBOOT=yes
-	MASTER=bond0
-	SLAVE=yes
-	MTU=1600
-	EOF
+cat << EOF > $NETPATH/ifcfg-$s
+TYPE=Ethernet
+BOOTPROTO=none
+NAME=$s
+DEVICE=$s
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+MTU=1600
+EOF
 done
 
 cat << EOF > $NETPATH/ifcfg-bond0 
