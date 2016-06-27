@@ -70,19 +70,17 @@ if [ ! -f /.registered ]; then
 	
 	# Opflex ##########################################################
 	echo "Install OpFlex Plugins"
-	# yum install -y --setopt=tsflags=nodocs neutron-opflex-agent apicapi neutron-ml2-driver-apic
 	rpm -Uvh $_PKG/neutron-opflex-agent-2015.2.0-10.el7.noarch.rpm \
 	$_PKG/apicapi-1.0.9-74.el7.noarch.rpm \
 	$_PKG/neutron-ml2-driver-apic-2015.2.1-32.el7.noarch.rpm
 	
 	if [ "$APIC_MODE" == "gbp" ]; then
 		echo "GBP"
-		# yum install -y --setopt=tsflags=nodocs openstack-neutron-gbp python-gbpclient openstack-dashboard-gbp openstack-heat-gbp && yum clean all
-		rpm -Uvh $_PKG/python-gbpclient-0.11.2-16.el7.noarch.rpm
-		rpm -Uvh $_PKG/python-django-horizon-gbp-2015.2.3-16.el7.noarch.rpm
-		rpm -Uvh $_PKG/openstack-dashboard-gbp-2015.2.3-16.el7.noarch.rpm
-		rpm -Uvh $_PKG/openstack-heat-gbp-2015.2.2-16.el7.noarch.rpm
-		rpm -Uvh $_PKG/openstack-neutron-gbp-2015.2.3-16.el7.noarch.rpm
+		rpm -Uvh $_PKG/python-gbpclient-0.11.2-16.el7.noarch.rpm \
+		$_PKG/python-django-horizon-gbp-2015.2.3-16.el7.noarch.rpm \
+		$_PKG/openstack-dashboard-gbp-2015.2.3-16.el7.noarch.rpm \
+		$_PKG/openstack-heat-gbp-2015.2.2-16.el7.noarch.rpm \
+		$_PKG/openstack-neutron-gbp-2015.2.3-16.el7.noarch.rpm
 	fi
 
 	touch /.registered
