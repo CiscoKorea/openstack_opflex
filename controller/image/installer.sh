@@ -1,7 +1,8 @@
 #!/bin/bash
 
 yum install -y --setopt=tsflags=nodocs epel-release
-yum install -y --setopt=tsflags=nodocs https://repos.fedorapeople.org/repos/openstack/openstack-liberty/rdo-release-liberty-3.noarch.rpm
+#yum install -y --setopt=tsflags=nodocs https://repos.fedorapeople.org/repos/openstack/openstack-liberty/rdo-release-liberty-3.noarch.rpm
+yum install -y --setopt=tsflags=nodocs https://repos.fedorapeople.org/repos/openstack/openstack-liberty/rdo-release-liberty-5.noarch.rpm
 yum install -y --setopt=tsflags=nodocs openstack-selinux
 
 yum update -y && yum upgrade -y
