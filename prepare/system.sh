@@ -7,7 +7,7 @@ VMAC=$2
 #ifconfig enp8s0 | grep ether | awk '{print $2}'
 
 function usage {
-	echo "system.sh \"BOND_NIC1 BOND_NIC2 ...\" <BOND_VMAC>
+	echo "system.sh \"BOND_NIC1 BOND_NIC2 ...\" <BOND_VMAC>"
 	exit 1
 }
 
@@ -40,7 +40,7 @@ DEVICE=bond0
 BOOTPROTO=none
 ONBOOT=yes
 MTU=1600
-BONDING_OPTS=\"mode=4 miimon=100 lacp_rate=1\"
+BONDING_OPTS="mode=4 miimon=100 lacp_rate=1"
 EOF
 
 cat << EOF > $NET_PATH/ifcfg-bond0.4093
