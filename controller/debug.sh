@@ -13,7 +13,8 @@ docker run\
  --net host \
  --name os_opflex \
  --env-file $PWD/conf/Environment.conf \
- -v /var/lib/mysql:/var/lib/mysql:rw \
  -v $PWD/ciscokr:/root/ciscokr:rw \
  -v $PWD/conf:/root/conf:rw \
  ciscokr/openstack_opflex
+ 
+# -v /var/lib/mysql:/var/lib/mysql:rw \
