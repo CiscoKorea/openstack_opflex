@@ -1,8 +1,7 @@
 #!/bin/bash
 
-
-NETPATH=/etc/sysconfig/network-scripts
-DHCPATH=/etc/dhcp
+NET_PATH=/etc/sysconfig/network-scripts
+DHCPPATH=/etc/dhcp
 BOND_SLAVES=$1
 VMAC=$2
 #ifconfig enp8s0 | grep ether | awk '{print $2}'
@@ -20,8 +19,8 @@ fi
 
 for s in $BOND_SLAVES
 do
-cp $NETPATH/ifcfg-$s $NETPATH/backup-$s
-cat << EOF > $NETPATH/ifcfg-$s
+cp $NET_PATH/ifcfg-$s $NET_PATH/backup-$s
+cat << EOF > $NET_PATH/ifcfg-$s
 TYPE=Ethernet
 BOOTPROTO=none
 NAME=$s
@@ -33,7 +32,7 @@ MTU=1600
 EOF
 done
 
-cat << EOF > $NETPATH/ifcfg-bond0 
+cat << EOF > $NET_PATH/ifcfg-bond0 
 DEVICE=bond0
 BOOTPROTO=none
 ONBOOT=yes
@@ -41,7 +40,7 @@ MTU=1600
 BONDING_OPTS="mode=4 miimon=100 lacp_rate=1"
 EOF
 
-cat << EOF > $NETPATH/ifcfg-bond0.4093
+cat << EOF > $NET_PATH/ifcfg-bond0.4093
 PERSISTENT_DHCLIENT=1
 DHCPRELEASE=1
 DEVICE=bond0.4093
@@ -56,14 +55,14 @@ NM_CONTROLLED=no
 MACADDR=$VMAC
 EOF
 
-cat << EOF > $NETPATH/route-bond0.4093
+cat << EOF > $NET_PATH/route-bond0.4093
 ADDRESS0=224.0.0.0
 NETMASK0=240.0.0.0
 GATEWAY0=0.0.0.0
 METRIC0=1000
 EOF
 
-cat << EOF > $DHCPATH/dhclient-bond0.4093.conf
+cat << EOF > $DHCPPATH/dhclient-bond0.4093.conf
 send dhcp-client-identifier 01:$VMAC;
 request subnet-mask, domain-name, domain-name-servers, host-name;
 send host-name compute01;
