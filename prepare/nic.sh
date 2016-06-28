@@ -79,5 +79,9 @@ also request wpad;
 also request ntp-servers;
 EOF
 
-#service network restart
-#fa:5b:39:0e:84:81
+cd /etc/yum.repos.d/
+yum install wget 
+wget http://download.opensuse.org/repositories/home:vbernat/RHEL_7/home:vbernat.repo 
+yum install lldpd
+systemctl enable lldpd
+systemctl start lldpd
