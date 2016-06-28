@@ -17,6 +17,9 @@ elif [ "$VMAC" == "" ]; then
 	usage
 fi
 
+echo "BOND SLAVES : $BOND_SLAVES"
+echo "VMAC : $VMAC"
+
 for s in $BOND_SLAVES
 do
 cp $NET_PATH/ifcfg-$s $NET_PATH/backup-$s
@@ -77,3 +80,4 @@ also request ntp-servers;
 EOF
 
 #service network restart
+fa:5b:39:0e:84:81
