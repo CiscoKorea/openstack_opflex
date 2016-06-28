@@ -41,17 +41,17 @@ function main {
 		echo "$CTRL_NAME" > /etc/hostname
 		echo "" >> /etc/hosts
 		cat $_CONF/OpenstackNodes.conf >> /etc/hosts
-		mkdir -p /var/www/html/opflex
-		cp $_PKG/* /var/www/html/opflex/
-		createrepo /var/www/html/opflex
-		chown -R apache:apache /var/www/html/opflex
+		#mkdir -p /var/www/html/opflex
+		#cp $_PKG/* /var/www/html/opflex/
+		#createrepo /var/www/html/opflex
+		#chown -R apache:apache /var/www/html/opflex
 		$_ROOT/setting.sh >> /tmp/running.log
 		touch /.first_run
 	fi
 	$_ROOT/runlevel_1.sh
 	(sleep $TICK1 && $_ROOT/runlevel_2.sh) &
 	(sleep $TICK2 && $_ROOT/runlevel_3.sh) &
-	(sleep $TICK3 && $_ROOT/runlevel_4.sh && $_ROOT/runlevel_5.sh) &
+	(sleep $TICK3 && $_ROOT/runlevel_4.sh && $_ROOT/runlevel_5.sh >> /dev/null) &
 	idle
 }
 
