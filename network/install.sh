@@ -156,5 +156,4 @@ EOF
 ######### COMMON #########
 ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
 chown -R neutron /var/lib/opflex-agent-ovs
-ovs-vsctl add-port br-int $DATA_INTF
 sed -i 's,plugins/openvswitch/ovs_neutron_plugin.ini,plugin.ini,g' /usr/lib/systemd/system/neutron-openvswitch-agent.service

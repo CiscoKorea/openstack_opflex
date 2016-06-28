@@ -1,7 +1,7 @@
 #!/bin/bash
 
-systemctl start neutron-opflex-agent agent-ovs
-systemctl status neutron-opflex-agent agent-ovs | grep -e Loaded -e Active
+systemctl start neutron-opflex-agent agent-ovs neutron-dhcp-agent
+systemctl status neutron-opflex-agent agent-ovs neutron-dhcp-agent | grep -e Loaded -e Active
 
 for i in {0..5};
 do
