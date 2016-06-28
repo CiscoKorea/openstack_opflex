@@ -19,6 +19,7 @@ function getval {
 getval CTRL_IP "Controller IP"
 getval CTRL_PASS "Controller Password"
 getval HOST_IP "This Host IP"
+getval HOST_NAME "This Host Name"
 getval DATA_INTF "Data Network Inteface"
 getval APIC_ID "APIC Identify Name"
 getval APIC_MODE "APIC Mode \"apic_ml2\" or \"gbp\""
@@ -46,7 +47,7 @@ fi
 #yum install -y --setopt=tsflags=nodocs \
 #	openstack-neutron-ml2 openstack-neutron-openvswitch \
 #	openstack-neutron-vpnaas openstack-neutron-lbaas openstack-neutron-fwaas
-#yum install -y --setopt=tsflags=nodocs neutron-opflex-agent agent-ovs
+#yum install -y --setopt=tsflags=nodocs neutron-opflex-agent agent-ovs apicapi neutron-ml2-driver-apic
 #
 #systemctl enable neutron-dhcp-agent neutron-opflex-agent agent-ovs
 
