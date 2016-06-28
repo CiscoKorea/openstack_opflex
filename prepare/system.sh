@@ -40,7 +40,7 @@ DEVICE=bond0
 BOOTPROTO=none
 ONBOOT=yes
 MTU=1600
-BONDING_OPTS="mode=4 miimon=100 lacp_rate=1"
+BONDING_OPTS=\"mode=4 miimon=100 lacp_rate=1\"
 EOF
 
 cat << EOF > $NET_PATH/ifcfg-bond0.4093
@@ -80,4 +80,4 @@ also request ntp-servers;
 EOF
 
 #service network restart
-fa:5b:39:0e:84:81
+#fa:5b:39:0e:84:81
