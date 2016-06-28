@@ -593,6 +593,7 @@ echo "Neutron"
 
 cat << EOF > /etc/neutron/neutron.conf
 [DEFAULT]
+debug=True
 rpc_backend = rabbit
 auth_strategy = keystone
 core_plugin = ml2

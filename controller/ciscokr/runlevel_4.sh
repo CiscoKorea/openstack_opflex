@@ -85,6 +85,7 @@ if [ ! -f /.registered ]; then
 	
 	cat << EOF > /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
 [DEFAULT]
+debug=True
 apic_system_id = $APIC_ID
 [opflex]
 networks = '*'
