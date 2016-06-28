@@ -1,6 +1,6 @@
 #!/bin/bash
 
-systemctl stop neutron-opflex-agent agent-ovs
+systemctl stop neutron-opflex-agent agent-ovs neutron-dhcp-agent
 rm -rf /var/log/neutron/*
 
 META_AGENTS=`ps -ef | grep neutron-metadata-agent | awk '{print $2}'`
