@@ -41,6 +41,10 @@ function main {
 		echo "$CTRL_NAME" > /etc/hostname
 		echo "" >> /etc/hosts
 		cat $_CONF/OpenstackNodes.conf >> /etc/hosts
+		mkdir -p /var/www/html/opflex
+		cp $_PKG/* /var/www/html/opflex/
+		createrepo /var/www/html/opflex
+		chown -R apache:apache /var/www/html/opflex
 		$_ROOT/setting.sh >> /tmp/running.log
 		touch /.first_run
 	fi
