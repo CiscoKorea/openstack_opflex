@@ -1,13 +1,39 @@
 #!/bin/bash
 
-CTRL_IP
-CTRL_PASS
-HOST_IP
-DATA_INTF
-APIC_ID
-APIC_MODE
+function getval {
+        while true;
+        do
+                echo -n "Input $2 : "
+                read VAL
+                echo -n "\"$VAL\" is correct ? (y) : "
+                read KEY
+                case $KEY in
+                        [Yy]) break;;
+                        *) continue;;
+                esac
+        done
+        echo ""
+        export $1="$VAL"
+}
 
-# INSTALL BASE ###########################################################################
+getval CTRL_IP "Controller IP"
+getval CTRL_PASS "Controller Password"
+getval HOST_IP "This Host IP"
+getval DATA_INTF "Data Network Inteface"
+getval APIC_ID "APIC Identify Name"
+getval APIC_MODE "APIC Mode \"apic_ml2\" or \"gbp\""
+
+if [ "$APIC_MODE" == "apic_ml2" ]; then
+	export APIC_PLUGINS=cisco_apic_l3,metering,lbaas
+	export APIC_DRIVER=cisco_apic_ml2
+elif [ "$APIC_MODE" == "gbp" ]; then
+	export APIC_PLUGINS=group_policy,servicechain,apic_gbp_l3,metering
+	export APIC_DRIVER=apic_gbp
+else
+	exit 1
+fi
+
+# INSTALL PACKAGE ########################################################################
 cat << EOF > /etc/yum.repos.d/opflex.repo
 [opflex]
 name=opflex repo
@@ -17,13 +43,15 @@ enabled=1
 gpgcheck=0
 EOF
 
-yum install -y --setopt=tsflags=nodocs epel-release
-yum install -y --setopt=tsflags=nodocs https://repos.fedorapeople.org/repos/openstack/openstack-liberty/rdo-release-liberty-3.noarch.rpm
-yum install -y --setopt=tsflags=nodocs openstack-selinux
-yum update -y && yum upgrade -y
+yum install -y --setopt=tsflags=nodocs \
+	openstack-nova-compute sysfsutils \
+	openstack-neutron-ml2 openstack-neutron-openvswitch
+yum install -y --setopt=tsflags=nodocs neutron-opflex-agent agent-ovs
 
-# INSTALL NOVA ###########################################################################
-yum install -y --setopt=tsflags=nodocs openstack-nova-compute sysfsutils
+systemctl enable libvirtd openstack-nova-compute
+systemctl enable neutron-opflex-agent agent-ovs
+
+# SETTING NOVA ###########################################################################
 	
 cat << EOF > /etc/nova/nova.conf
 [DEFAULT]
@@ -65,28 +93,7 @@ admin_username = neutron
 admin_password = $CTRL_PASS
 EOF
 
-systemctl enable libvirtd openstack-nova-compute
-
-# INSTALL NEUTRON ########################################################################
-yum install -y --setopt=tsflags=nodocs \
-	net-tools wget \
-	openvswitch \
-	openstack-neutron-ml2 openstack-neutron-openvswitch
-
-yum install -y --setopt=tsflags=nodocs neutron-opflex-agent agent-ovs
-
-systemctl enable openvswitch
-systemctl start openvswitch
-
-if [ "$APIC_MODE" == "apic_ml2" ]; then
-	export APIC_PLUGINS=cisco_apic_l3,metering,lbaas
-	export APIC_DRIVER=cisco_apic_ml2
-elif [ "$APIC_MODE" == "gbp" ]; then
-	export APIC_PLUGINS=group_policy,servicechain,apic_gbp_l3,metering
-	export APIC_DRIVER=apic_gbp
-else
-	exit 1
-fi
+# SETTING NEUTRON ########################################################################
 
 cat << EOF > /etc/neutron/neutron.conf
 [DEFAULT]
@@ -109,6 +116,25 @@ user_domain_id = default
 project_name = service
 username = neutron
 password = $CTRL_PASS
+EOF
+
+cat << EOF > /etc/neutron/metadata_agent.ini
+[DEFAULT]
+admin_tenant_name = %SERVICE_TENANT_NAME%
+admin_user = %SERVICE_USER%
+admin_password = %SERVICE_PASSWORD%
+auth_uri = http://$CTRL_IP:5000
+auth_url = http://$CTRL_IP:35357
+auth_region = RegionOne
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = $CTRL_PASS
+nova_metadata_ip = $CTRL_IP
+metadata_proxy_shared_secret = $CTRL_PASS
+verbose = True
 EOF
 
 cat << EOF > /etc/neutron/plugins/ml2/ml2_conf.ini
@@ -159,4 +185,3 @@ ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
 chown -R neutron /var/lib/opflex-agent-ovs
 ovs-vsctl add-port br-int $DATA_INTF
 sed -i 's,plugins/openvswitch/ovs_neutron_plugin.ini,plugin.ini,g' /usr/lib/systemd/system/neutron-openvswitch-agent.service
-systemctl enable neutron-opflex-agent agent-ovs
