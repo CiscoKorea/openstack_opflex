@@ -10,6 +10,7 @@ yum install -y --setopt=tsflags=nodocs \
 	net-tools wget \
 	mariadb mariadb-server MySQL-python \
 	rabbitmq-server \
+	createrepo \
 	httpd mod_wsgi memcached \
 	python-pip python-pbr \
 	python-inotify supervisor python-click \
@@ -21,6 +22,7 @@ yum install -y --setopt=tsflags=nodocs \
 	openstack-nova-api openstack-nova-cert openstack-nova-conductor openstack-nova-console \
 	openstack-nova-novncproxy openstack-nova-scheduler python-novaclient \
 	openstack-neutron openstack-neutron-ml2 python-neutronclient which \
+	openstack-neutron-vpnaas openstack-neutron-lbaas openstack-neutron-fwaas \
 	openstack-heat-api openstack-heat-api-cfn openstack-heat-engine python-heatclient \
 	openstack-ceilometer-api openstack-ceilometer-collector openstack-ceilometer-notification \
 	openstack-ceilometer-central openstack-ceilometer-alarm python-ceilometerclient

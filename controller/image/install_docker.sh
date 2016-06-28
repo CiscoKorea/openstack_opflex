@@ -1,19 +1,14 @@
 #!/bin/bash
 
-PWD=`pwd`
+cat << EOF > /etc/yum.repos.d/docker.repo
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
 
-docker pull centos:7
-
-docker run \
- -ti \
- --privileged \
- --net host \
- --name base \
- -v $PWD:/root/image:ro \
- centos:7 \
- /root/image/installer.sh
-
-docker commit base ciscokr/openstack_base
-docker rm -f base
-
-docker build --rm --tag ciscokr/openstack_opflex .
+yum install -y docker-engine
+systemctl enable docker
+systemctl start docker

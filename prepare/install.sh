@@ -6,10 +6,8 @@ DHCPPATH=/etc/dhcp
 function getval {
     while true;
     do
-        echo -n "Input $2 : "
-        read VAL
-        echo -n "\"$VAL\" is correct ? (y) : "
-        read KEY
+    	read -p "Input $2 : " VAL
+    	read -p "\"$VAL\" is correct ? (y) : " KEY
         case $KEY in
             [Yy]) break;;
             *) continue;;
@@ -36,7 +34,7 @@ EOF
 
 # SETTING FORWARD ########################################################################
 
-cat << EOF >> /etc/sysctl.conf
+cat << EOF > /etc/sysctl.conf
 net.ipv4.ip_forward = 1
 EOF
 sysctl -p

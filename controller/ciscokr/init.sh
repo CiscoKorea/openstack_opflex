@@ -24,10 +24,10 @@ TICK3=30
 
 function idle {
 	while true; do
-		read -p "Type \"exit\" to Exit > " KEY
+		read -p "Type \"bash\" or \"exit\" > " KEY
 			case $KEY in
 			exit ) break ;;
-			shell ) /bin/bash ;;
+			bash ) /bin/bash ;;
 			* ) echo "$KEY";;
 		esac
 	done
@@ -41,10 +41,10 @@ function main {
 		echo "$CTRL_NAME" > /etc/hostname
 		echo "" >> /etc/hosts
 		cat $_CONF/OpenstackNodes.conf >> /etc/hosts
-		#mkdir -p /var/www/html/opflex
-		#cp $_PKG/* /var/www/html/opflex/
-		#createrepo /var/www/html/opflex
-		#chown -R apache:apache /var/www/html/opflex
+		mkdir -p /var/www/html/opflex
+		cp $_PKG/* /var/www/html/opflex/
+		createrepo /var/www/html/opflex >> /dev/null
+		chown -R apache:apache /var/www/html/opflex
 		$_ROOT/setting.sh >> /tmp/running.log
 		touch /.first_run
 	fi

@@ -1,19 +1,17 @@
 #!/bin/bash
 
 function getval {
-        while true;
-        do
-                echo -n "Input $2 : "
-                read VAL
-                echo -n "\"$VAL\" is correct ? (y) : "
-                read KEY
-                case $KEY in
-                        [Yy]) break;;
-                        *) continue;;
-                esac
-        done
-        echo ""
-        export $1="$VAL"
+    while true;
+    do
+    	read -p "Input $2 : " VAL
+    	read -p "\"$VAL\" is correct ? (y) : " KEY
+        case $KEY in
+            [Yy]) break;;
+            *) continue;;
+        esac
+    done
+    echo ""
+    export $1="$VAL"
 }
 
 getval CTRL_IP "Controller IP"
