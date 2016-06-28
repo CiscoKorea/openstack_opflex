@@ -1,39 +1,5 @@
 #!/bin/bash
 
-# INSTALL PACKAGE ########################################################################
-
-cat << EOF > /etc/yum.repos.d/vbernat.repo
-[home_vbernat]
-name=vbernat's Home Project (RHEL_7)
-type=rpm-md
-baseurl=http://download.opensuse.org/repositories/home:/vbernat/RHEL_7/
-gpgcheck=1
-gpgkey=http://download.opensuse.org/repositories/home:/vbernat/RHEL_7//repodata/repomd.xml.key
-enabled=1
-EOF
-
-yum install -y --setopt=tsflags=nodocs epel-release
-yum install -y --setopt=tsflags=nodocs https://repos.fedorapeople.org/repos/openstack/openstack-liberty/rdo-release-liberty-3.noarch.rpm
-yum install -y --setopt=tsflags=nodocs openstack-selinux
-yum update -y && yum upgrade -y
-yum install -y --setopt=tsflags=nodocs net-tools wget lldpd openvswitch
-
-# SETTING SELINUX ########################################################################
-
-cat << EOF > /etc/selinux/config
-SELINUX=disabled
-SELINUXTYPE=targeted
-EOF
-
-# SETTING FORWARD ########################################################################
-
-cat << EOF >> /etc/sysctl.conf
-net.ipv4.ip_forward = 1
-EOF
-sysctl -p
-
-# SETTING NETWORK ########################################################################
-
 NET_PATH=/etc/sysconfig/network-scripts
 DHCPPATH=/etc/dhcp
 
@@ -58,8 +24,24 @@ function getvmac {
 }
 
 function printnics {
-	ifconfig | grep flags | tr ":" " " | tr "<" " " | tr ">" " " | awk '{print $1 "\t:" $3}'
+	ifconfig -a | grep flags | tr ":" " " | tr "<" " " | tr ">" " " | awk '{print $1 "\t:" $3}'
 }
+
+# SETTING SELINUX ########################################################################
+
+cat << EOF > /etc/selinux/config
+SELINUX=disabled
+SELINUXTYPE=targeted
+EOF
+
+# SETTING FORWARD ########################################################################
+
+cat << EOF >> /etc/sysctl.conf
+net.ipv4.ip_forward = 1
+EOF
+sysctl -p
+
+# SETTING NETWORK ########################################################################
 
 function nic_basic {
 	printnics
@@ -73,7 +55,7 @@ BOOTPROTO=none
 ONBOOT=yes
 MTU=1600
 EOF
-
+	
 }
 
 function nic_bonding {
@@ -95,6 +77,8 @@ MASTER=bond0
 SLAVE=yes
 MTU=1600
 EOF
+
+		ifdown $s && ifup $s
 	done
 
 	cat << EOF > $NET_PATH/ifcfg-bond0 
@@ -104,7 +88,8 @@ ONBOOT=yes
 MTU=1600
 BONDING_OPTS="mode=4 miimon=100 lacp_rate=1"
 EOF
-
+	
+	export DATA_INTF=bond0
 }
 
 echo "Setting Data Network Interface Mode"
@@ -120,6 +105,8 @@ do
                 * ) continue;;
         esac
 done
+
+ifdown $DATA_INTF && ifup $DATA_INTF
 
 cat << EOF > $NET_PATH/ifcfg-$DATA_INTF.4093
 PERSISTENT_DHCLIENT=1
@@ -157,9 +144,27 @@ also request wpad;
 also request ntp-servers;
 EOF
 
-systemctl disable NetworkManager
+ifdown $DATA_INTF.4093 && ifup $DATA_INTF.4093
+
+# INSTALL PACKAGE ########################################################################
+
+cat << EOF > /etc/yum.repos.d/vbernat.repo
+[home_vbernat]
+name=vbernat's Home Project (RHEL_7)
+type=rpm-md
+baseurl=http://download.opensuse.org/repositories/home:/vbernat/RHEL_7/
+gpgcheck=1
+gpgkey=http://download.opensuse.org/repositories/home:/vbernat/RHEL_7//repodata/repomd.xml.key
+enabled=1
+EOF
+
+yum install -y --setopt=tsflags=nodocs epel-release
+yum install -y --setopt=tsflags=nodocs https://repos.fedorapeople.org/repos/openstack/openstack-liberty/rdo-release-liberty-3.noarch.rpm
+yum install -y --setopt=tsflags=nodocs openstack-selinux
+yum update -y && yum upgrade -y
+yum install -y --setopt=tsflags=nodocs net-tools wget lldpd openvswitch
+
 systemctl enable lldpd openvswitch
 systemctl start lldpd openvswitch
-service network restart
 ovs-vsctl add-br br-int
 ovs-vsctl add-port br-int $DATA_INTF
