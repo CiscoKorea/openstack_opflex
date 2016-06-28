@@ -4,6 +4,7 @@ echo "START RUN LEVEL 2"
 
 if [ ! -f /.rabbit_registered ]; then
 
+	echo "Create Rabbit User"
 	# Create Rabbit User
 	rabbitmqctl add_user openstack $CTRL_PASS >> /tmp/running.log
 	rabbitmqctl set_permissions openstack ".*" ".*" ".*" >> /tmp/running.log
