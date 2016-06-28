@@ -35,21 +35,21 @@ else
 fi
 
 # INSTALL PACKAGE ########################################################################
-#cat << EOF > /etc/yum.repos.d/opflex.repo
-#[opflex]
-#name=opflex repo
-#baseurl=http://$CTRL_IP/opflex
-#failovermethod=priority
-#enabled=1
-#gpgcheck=0
-#EOF
-#
-#yum install -y --setopt=tsflags=nodocs \
-#	openstack-neutron-ml2 openstack-neutron-openvswitch \
-#	openstack-neutron-vpnaas openstack-neutron-lbaas openstack-neutron-fwaas
-#yum install -y --setopt=tsflags=nodocs neutron-opflex-agent agent-ovs apicapi neutron-ml2-driver-apic
-#
-#systemctl enable neutron-dhcp-agent neutron-opflex-agent agent-ovs
+cat << EOF > /etc/yum.repos.d/opflex.repo
+[opflex]
+name=opflex repo
+baseurl=http://$CTRL_IP/opflex
+failovermethod=priority
+enabled=1
+gpgcheck=0
+EOF
+
+yum install -y --setopt=tsflags=nodocs \
+	openstack-neutron-ml2 openstack-neutron-openvswitch \
+	openstack-neutron-vpnaas openstack-neutron-lbaas openstack-neutron-fwaas
+yum install -y --setopt=tsflags=nodocs neutron-opflex-agent agent-ovs apicapi neutron-ml2-driver-apic
+
+systemctl enable neutron-dhcp-agent neutron-opflex-agent agent-ovs
 
 # SETTING ################################################################################
 
