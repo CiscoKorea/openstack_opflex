@@ -82,6 +82,38 @@ if [ ! -f /.registered ]; then
 		$_PKG/openstack-heat-gbp-2015.2.2-16.el7.noarch.rpm \
 		$_PKG/openstack-neutron-gbp-2015.2.3-16.el7.noarch.rpm >> /dev/null
 	fi
+	
+	cat << EOF > /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+[DEFAULT]
+apic_system_id = $APIC_ID
+[opflex]
+networks = '*'
+[ml2_cisco_apic]
+apic_hosts = $APIC_HOST
+apic_username = $APIC_USER
+apic_password = $APIC_PASS
+apic_use_ssl = True
+apic_name_mapping = use_name
+apic_agent_report_interval = 30
+apic_agent_poll_interval = 2
+apic_provision_infra = True
+apic_provision_hostlinks = True
+enable_optimized_dhcp = False
+enable_optimized_metadata = False
+EOF
+	
+	if [ -n $APIC_VPCPAIR ]; then
+		echo "apic_vpc_pairs = $APIC_VPCPAIR" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+	fi
+	
+	if [ "$APIC_MODE" == "gbp" ]; then
+		echo "[group_policy]" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+		echo "policy_drivers=implicit_policy,apic" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+		echo "[group_policy_implicit_policy]" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+		echo "default_ip_pool=$APIC_GBPPOOL" >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
+	fi
+
+	cat $_CONF/Switch.conf >> /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
 
 	touch /.registered
 fi
