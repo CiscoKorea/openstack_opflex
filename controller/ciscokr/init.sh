@@ -36,8 +36,9 @@ function idle {
 function main {
 	echo "RUNNING OPENSTACK!!!"
 	echo ""
-	echo "$HOSTNAME" > /proc/sys/kernel/hostname
+	echo "$CTRL_NAME" > /proc/sys/kernel/hostname
 	if [ ! -f /.first_run ]; then
+		echo "$CTRL_NAME" > /etc/hostname
 		echo "" >> /etc/hosts
 		cat $_CONF/OpenstackNodes.conf >> /etc/hosts
 		$_ROOT/setting.sh >> /tmp/running.log

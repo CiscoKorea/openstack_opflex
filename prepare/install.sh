@@ -92,6 +92,10 @@ EOF
 	export DATA_INTF=bond0
 }
 
+getval HOST_NAME "This Host Name"
+echo $HOST_NAME > /etc/hostname
+echo $HOST_NAME > /proc/sys/kernel/hostname
+
 echo "Setting Data Network Interface Mode"
 echo "  1 ) Basic"
 echo "  2 ) Bonding"
@@ -133,7 +137,7 @@ EOF
 cat << EOF > $DHCPPATH/dhclient-$DATA_INTF.4093.conf
 send dhcp-client-identifier 01:$VMAC;
 request subnet-mask, domain-name, domain-name-servers, host-name;
-send host-name compute01;
+send host-name $HOST_NAME;
 option rfc3442-classless-static-routes code 121 = array of unsigned integer 8;
 option ms-classless-static-routes code 249 = array of unsigned integer 8;
 option wpad code 252 = string;
