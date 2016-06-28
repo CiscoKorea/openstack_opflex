@@ -26,7 +26,7 @@ echo ""
 cat << EOF > /etc/my.cnf.d/client.cnf
 [client]
 user=root
-password=$HOST_PASS
+password=$CTRL_PASS
 [client-mariadb]
 EOF
 echo "/etc/my.cnf.d/client.cnf"
@@ -37,7 +37,7 @@ echo ""
 echo "RabbitMQ"
 
 cat >/etc/rabbitmq/rabbitmq.config << EOF
-[ {rabbit, [{default_user, <<"admin">>}, {default_pass, <<"$HOST_PASS">>}]} ].
+[ {rabbit, [{default_user, <<"admin">>}, {default_pass, <<"$CTRL_PASS">>}]} ].
 EOF
 echo "/etc/rabbitmq/rabbitmq.config"
 cat /etc/rabbitmq/rabbitmq.config | grep -v "#" | grep -i "\W"
@@ -50,7 +50,7 @@ echo "HTTP"
 
 cat << EOF > /etc/httpd/conf/httpd.conf
 ServerRoot "/etc/httpd"
-ServerName $HOST_NAME
+ServerName $CTRL_NAME
 Listen 0.0.0.0:80
 Include conf.modules.d/*.conf
 User apache
@@ -118,7 +118,7 @@ echo ""
 #cat << EOF > /etc/yum.repos.d/opflex.repo
 #[opflex]
 #name=opflex repo
-#baseurl=http://$HOST_IP/opflex
+#baseurl=http://$CTRL_IP/opflex
 #failovermethod=priority
 #enabled=1
 #gpgcheck=0
@@ -132,10 +132,10 @@ echo "Keystone"
 
 cat << EOF > /etc/keystone/keystone.conf
 [DEFAULT]
-admin_token = $HOST_PASS
+admin_token = $CTRL_PASS
 verbose = True
 [database]
-connection = mysql://keystone:$HOST_PASS@$HOST_IP/keystone
+connection = mysql://keystone:$CTRL_PASS@$CTRL_IP/keystone
 [memcache]
 servers = localhost:11211
 [token]
@@ -174,7 +174,7 @@ CACHES = {
     }
 }
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-OPENSTACK_HOST = "$HOST_IP"
+OPENSTACK_HOST = "$CTRL_IP"
 OPENSTACK_KEYSTONE_URL = "http://%s:5000/v2.0" % OPENSTACK_HOST
 OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"
 OPENSTACK_KEYSTONE_BACKEND = {
@@ -497,16 +497,16 @@ cat << EOF > /etc/glance/glance-api.conf
 notification_driver = noop
 verbose = True
 [database]
-connection = mysql://glance:$HOST_PASS@$HOST_IP/glance
+connection = mysql://glance:$CTRL_PASS@$CTRL_IP/glance
 [keystone_authtoken]
-auth_uri = http://$HOST_IP:5000
-auth_url = http://$HOST_IP:35357
+auth_uri = http://$CTRL_IP:5000
+auth_url = http://$CTRL_IP:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
 username = glance
-password = $HOST_PASS
+password = $CTRL_PASS
 [paste_deploy]
 flavor = keystone
 [glance_store]
@@ -522,16 +522,16 @@ cat << EOF > /etc/glance/glance-registry.conf
 notification_driver = noop
 verbose = True
 [database]
-connection = mysql://glance:$HOST_PASS@$HOST_IP/glance
+connection = mysql://glance:$CTRL_PASS@$CTRL_IP/glance
 [keystone_authtoken]
-auth_uri = http://$HOST_IP:5000
-auth_url = http://$HOST_IP:35357
+auth_uri = http://$CTRL_IP:5000
+auth_url = http://$CTRL_IP:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
 username = glance
-password = $HOST_PASS
+password = $CTRL_PASS
 [paste_deploy]
 flavor = keystone
 EOF
@@ -546,9 +546,9 @@ cat << EOF > /etc/nova/nova.conf
 [DEFAULT]
 rpc_backend = rabbit
 auth_strategy = keystone
-my_ip = $HOST_IP
-vncserver_listen = $HOST_IP
-vncserver_proxyclient_address = $HOST_IP
+my_ip = $CTRL_IP
+vncserver_listen = $CTRL_IP
+vncserver_proxyclient_address = $CTRL_IP
 verbose = True
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron
@@ -556,33 +556,33 @@ linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 enabled_apis = osapi_compute,metadata
 [database]
-connection = mysql://nova:$HOST_PASS@$HOST_IP/nova
+connection = mysql://nova:$CTRL_PASS@$CTRL_IP/nova
 [oslo_messaging_rabbit]
-rabbit_host = $HOST_IP
+rabbit_host = $CTRL_IP
 rabbit_userid = openstack
-rabbit_password = $HOST_PASS
+rabbit_password = $CTRL_PASS
 [keystone_authtoken]
-auth_uri = http://$HOST_IP:5000
-auth_url = http://$HOST_IP:35357
+auth_uri = http://$CTRL_IP:5000
+auth_url = http://$CTRL_IP:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
 username = nova
-password = $HOST_PASS
+password = $CTRL_PASS
 [glance]
 host = $HOSTIP
 [oslo_concurrency]
 lock_path = /var/lib/nova/tmp
 [neutron]
-url = http://$HOST_IP:9696
+url = http://$CTRL_IP:9696
 auth_strategy = keystone
-admin_auth_url = http://$HOST_IP:35357/v2.0
+admin_auth_url = http://$CTRL_IP:35357/v2.0
 admin_tenant_name = service
 admin_username = neutron
-admin_password = $HOST_PASS
+admin_password = $CTRL_PASS
 service_metadata_proxy = True
-metadata_proxy_shared_secret = $HOST_PASS
+metadata_proxy_shared_secret = $CTRL_PASS
 EOF
 echo "/etc/nova/nova.conf"
 cat /etc/nova/nova.conf | grep -v "#" | grep -i "\W"
@@ -600,35 +600,35 @@ service_plugins = $APIC_PLUGINS
 allow_overlapping_ips = True
 notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True
-nova_url = http://$HOST_IP:8774/v2
+nova_url = http://$CTRL_IP:8774/v2
 verbose = True
 [database]
-connection = mysql://neutron:$HOST_PASS@$HOST_IP/neutron
+connection = mysql://neutron:$CTRL_PASS@$CTRL_IP/neutron
 [oslo_messaging_rabbit]
-rabbit_host = $HOST_IP
+rabbit_host = $CTRL_IP
 rabbit_userid = openstack
-rabbit_password = $HOST_PASS
+rabbit_password = $CTRL_PASS
 [keystone_authtoken]
 admin_tenant_name = %SERVICE_TENANT_NAME%
 admin_user = %SERVICE_USER%
 admin_password = %SERVICE_PASSWORD%
-auth_uri = http://$HOST_IP:5000
-auth_url = http://$HOST_IP:35357
+auth_uri = http://$CTRL_IP:5000
+auth_url = http://$CTRL_IP:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
 username = neutron
-password = $HOST_PASS
+password = $CTRL_PASS
 [nova]
-auth_url = http://$HOST_IP:35357
+auth_url = http://$CTRL_IP:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 region_name = RegionOne
 project_name = service
 username = nova
-password = $HOST_PASS
+password = $CTRL_PASS
 EOF
 echo "/etc/neutron/neutron.conf"
 cat /etc/neutron/neutron.conf | grep -v "#" | grep -i "\W"
@@ -639,17 +639,17 @@ cat << EOF > /etc/neutron/metadata_agent.ini
 admin_tenant_name = %SERVICE_TENANT_NAME%
 admin_user = %SERVICE_USER%
 admin_password = %SERVICE_PASSWORD%
-auth_uri = http://$HOST_IP:5000
-auth_url = http://$HOST_IP:35357
+auth_uri = http://$CTRL_IP:5000
+auth_url = http://$CTRL_IP:35357
 auth_region = RegionOne
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
 username = neutron
-password = $HOST_PASS
-nova_metadata_ip = $HOST_IP
-metadata_proxy_shared_secret = $HOST_PASS
+password = $CTRL_PASS
+nova_metadata_ip = $CTRL_IP
+metadata_proxy_shared_secret = $CTRL_PASS
 verbose = True
 EOF
 echo "/etc/neutron/metadata_agent.ini"
@@ -681,7 +681,7 @@ enable_security_group = True
 enable_ipset = True
 firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
 [ovs]
-local_ip = $HOST_IP
+local_ip = $CTRL_IP
 EOF
 echo "/etc/neutron/plugins/ml2/ml2_conf.ini"
 cat /etc/neutron/plugins/ml2/ml2_conf.ini | grep -v "#" | grep -i "\W"
