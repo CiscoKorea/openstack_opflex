@@ -6,7 +6,7 @@ if [ ! -f /.registered ]; then
 
 	# Active Keystone Data
 	echo "Active Keystone Data"
-	mysql -e "CREATE DATABASE keystone; GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '$HOST_PASS'; GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '$HOST_PASS';"
+	mysql -e "CREATE DATABASE keystone; GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '$CTRL_PASS'; GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '$CTRL_PASS';"
 	su -s /bin/sh -c "keystone-manage db_sync" keystone
 	
 	export OS_TOKEN=$CTRL_PASS
