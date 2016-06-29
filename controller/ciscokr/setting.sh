@@ -18,6 +18,8 @@ innodb_file_per_table
 collation-server = utf8_general_ci
 init-connect = 'SET NAMES utf8'
 character-set-server = utf8
+max_connections = 10000
+wait_timeout = 600
 EOF
 echo "/etc/my.cnf.d/mariadb_openstack.cnf"
 cat /etc/my.cnf.d/mariadb_openstack.cnf
