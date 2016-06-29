@@ -571,7 +571,7 @@ project_name = service
 username = nova
 password = $CTRL_PASS
 [glance]
-host = $HOSTIP
+host = $CTRL_IP
 [oslo_concurrency]
 lock_path = /var/lib/nova/tmp
 [neutron]
