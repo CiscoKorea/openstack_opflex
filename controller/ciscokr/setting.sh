@@ -200,7 +200,7 @@ OPENSTACK_NEUTRON_NETWORK = {
     'enable_ipv6': False,
     'enable_distributed_router': False,
     'enable_ha_router': False,
-    'enable_lb': True,
+    'enable_lb': False,
     'enable_firewall': True,
     'enable_vpn': False,
     'enable_fip_topology_check': False,
@@ -452,7 +452,6 @@ Listen 0.0.0.0:35357
     </IfVersion>
     ErrorLog /var/log/httpd/keystone-error.log
     CustomLog /var/log/httpd/keystone-access.log combined
-
     <Directory /usr/bin>
         <IfVersion >= 2.4>
             Require all granted
