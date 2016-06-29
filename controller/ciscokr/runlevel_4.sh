@@ -70,17 +70,31 @@ if [ ! -f /.registered ]; then
 	
 	# Opflex ##########################################################
 	echo "Install OpFlex Plugins"
-	rpm -Uvh $_PKG/neutron-opflex-agent-2015.2.0-10.el7.noarch.rpm \
-	$_PKG/apicapi-1.0.9-74.el7.noarch.rpm \
-	$_PKG/neutron-ml2-driver-apic-2015.2.1-32.el7.noarch.rpm >> /dev/null
 	
-	if [ "$APIC_MODE" == "gbp" ]; then
-		echo "GBP"
-		rpm -Uvh $_PKG/python-gbpclient-0.11.2-16.el7.noarch.rpm \
-		$_PKG/python-django-horizon-gbp-2015.2.3-16.el7.noarch.rpm \
-		$_PKG/openstack-dashboard-gbp-2015.2.3-16.el7.noarch.rpm \
-		$_PKG/openstack-heat-gbp-2015.2.2-16.el7.noarch.rpm \
-		$_PKG/openstack-neutron-gbp-2015.2.3-16.el7.noarch.rpm >> /dev/null
+	if [ "$PLUGIN_VERSION" == "2" ]; then
+		rpm -Uvh $_PKG/neutron-opflex-agent-2015.2.0-10.el7.noarch.rpm \
+		$_PKG/apicapi-1.0.8-71.el7.noarch.rpm \
+		$_PKG/neutron-ml2-driver-apic-2015.2.0-19.el7.noarch.rpm >> /dev/null
+		if [ "$APIC_MODE" == "gbp" ]; then
+			echo "GBP"
+			rpm -Uvh $_PKG/python-gbpclient-0.11.1-8.el7.noarch.rpm \
+			$_PKG/python-django-horizon-gbp-2015.2.1-8.el7.noarch.rpm \
+			$_PKG/openstack-dashboard-gbp-2015.2.1-8.el7.noarch.rpm \
+			$_PKG/openstack-heat-gbp-2015.2.1-8.el7.noarch.rpm \
+			$_PKG/openstack-neutron-gbp-2015.2.1-8.el7.noarch.rpm >> /dev/null
+		fi
+	elif [ "$PLUGIN_VERSION" == "3" ]; then
+		rpm -Uvh $_PKG/neutron-opflex-agent-2015.2.0-10.el7.noarch.rpm \
+		$_PKG/apicapi-1.0.9-74.el7.noarch.rpm \
+		$_PKG/neutron-ml2-driver-apic-2015.2.1-32.el7.noarch.rpm >> /dev/null
+		if [ "$APIC_MODE" == "gbp" ]; then
+			echo "GBP"
+			rpm -Uvh $_PKG/python-gbpclient-0.11.2-16.el7.noarch.rpm \
+			$_PKG/python-django-horizon-gbp-2015.2.3-16.el7.noarch.rpm \
+			$_PKG/openstack-dashboard-gbp-2015.2.3-16.el7.noarch.rpm \
+			$_PKG/openstack-heat-gbp-2015.2.2-16.el7.noarch.rpm \
+			$_PKG/openstack-neutron-gbp-2015.2.3-16.el7.noarch.rpm >> /dev/null
+		fi
 	fi
 	
 	cat << EOF > /etc/neutron/plugins/ml2/ml2_conf_cisco_apic.ini
