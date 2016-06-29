@@ -132,6 +132,7 @@ echo "Keystone"
 
 cat << EOF > /etc/keystone/keystone.conf
 [DEFAULT]
+debug = True
 admin_token = $CTRL_PASS
 verbose = True
 [database]
@@ -156,7 +157,7 @@ import os
 from django.utils.translation import ugettext_lazy as _
 from openstack_dashboard import exceptions
 from openstack_dashboard.settings import HORIZON_CONFIG
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 WEBROOT = '/dashboard/'
 ALLOWED_HOSTS = ['*',]
