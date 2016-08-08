@@ -21,6 +21,7 @@ if [ ! -f /.registered ]; then
 	openstack project create --domain default --description "Admin Project" admin
 	openstack user create --domain default --password $CTRL_PASS admin
 	openstack role create admin
+	openstack role create user 
 	openstack role add --project admin --user admin admin
 	openstack project create --domain default --description "Service Project" service
 	
